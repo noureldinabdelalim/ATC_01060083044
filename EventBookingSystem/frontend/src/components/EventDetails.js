@@ -22,7 +22,7 @@ return (
         <p><strong>Location: </strong> {event.location}</p>
         <p><strong>Available Tickets: </strong> {event.availableTickets}</p>
         {event.eventImage && <img src={event.eventImage} alt={event.title} />}
-        <span onClick={handleClick}>Delete</span>
+        <span class="material-symbols-outlined" onClick={handleClick}>delete</span>
     </div>
 )
 

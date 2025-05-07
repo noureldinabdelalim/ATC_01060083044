@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useEventsContext } from '../hooks/useEventsContext'
+// import { useEventsContext } from '../hooks/useEventsContext'
 
 const EventForm = ({ fetchEvents}) => {
     const [title, setTitle] = useState("")
@@ -11,6 +11,7 @@ const EventForm = ({ fetchEvents}) => {
     const [availableTickets, setAvailableTickets] = useState(0)
     const [time, setTime] = useState("")
     const [error, setError] = useState(null)
+    const [emptyFields, setEmptyFields] = useState([])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -49,10 +50,13 @@ const EventForm = ({ fetchEvents}) => {
             setAvailableTickets(0)
             setTime("")
             fetchEvents()
+            setError(null)
+            setEmptyFields([])
 
         } else {
             console.log("Error creating event:", json)
-            setError(json.mssg)
+            setEmptyFields(json.emptyFields)
+            setError(json.error)
         }
     }
 
@@ -64,12 +68,14 @@ const EventForm = ({ fetchEvents}) => {
                 type="text"
                 required
                 value={title}
+                className={emptyFields.includes("title") ? "error" : ""}
                 onChange={(e) => setTitle(e.target.value)}
             />
             <label>Date:</label>
             <input
                 type="date"
                 required
+                className={emptyFields.includes("date") ? "error" : ""}
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
             />
@@ -77,6 +83,7 @@ const EventForm = ({ fetchEvents}) => {
             <input 
                 type="time"
                 required
+                className={emptyFields.includes("time") ? "error" : ""}
                 value={time}
                 onChange={(e) => setTime(e.target.value)}
             />
@@ -84,12 +91,14 @@ const EventForm = ({ fetchEvents}) => {
             <input
                 type="text"
                 required
+                className={emptyFields.includes("location") ? "error" : ""}
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
             />
             <label>Description:</label>
             <textarea
                 required
+                className={emptyFields.includes("description") ? "error" : ""}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
             ></textarea>
@@ -103,12 +112,15 @@ const EventForm = ({ fetchEvents}) => {
             <input
                 type="number"
                 required
+                className={emptyFields.includes("availableTickets") ? "error" : ""}
+                min="0"
                 value={availableTickets}
                 onChange={(e) => setAvailableTickets(e.target.value)}
             />
             <label>Event Image:</label>
             <input
                 type="file"
+
                 accept="image/*"
                 onChange={(e) => setEventImage(e.target.files[0])}
             />

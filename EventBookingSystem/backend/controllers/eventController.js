@@ -3,6 +3,37 @@ const mongoose = require('mongoose')
 createEvent = async (req, res) => {
 
     const { title, description, date, time, location, eventImage, availableTickets } = req.body
+    
+    let emptyFields = []
+    if (!title) {
+        emptyFields.push('title')
+    }
+    if (!description) {
+        emptyFields.push('description')
+    }
+    if (!date) {
+        emptyFields.push('date')
+    }
+    if (!time) {
+        emptyFields.push('time')
+    }
+    if (!location) {
+        emptyFields.push('location')
+    }
+    if (!availableTickets) {
+        emptyFields.push('availableTickets')
+    }
+
+    if (!eventImage) {
+        return res.status(400).json({mssg: 'Please provide an image'})
+    }
+    if (availableTickets <= 0) {
+        return res.status(400).json({mssg: 'Available tickets must be greater than 0'})
+    }
+    if (emptyFields.length > 0) {
+        return res.status(400).json({mssg: 'Please fill in all fields', emptyFields})
+    }
+    
     try {
         const event = await Event.create({title,description,date,time,location,eventImage,availableTickets
         })
