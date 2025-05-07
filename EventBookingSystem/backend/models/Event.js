@@ -21,6 +21,10 @@ const eventSchema = new Schema({
         type: String,
         required: true
     },
+    availableTickets: {
+        type: Number,
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now

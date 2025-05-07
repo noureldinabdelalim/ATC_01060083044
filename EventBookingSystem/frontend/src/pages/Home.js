@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import EventDetails from "../components/EventDetails"
+import EventForm from "../components/EventForm"
 const URL = process.env.REACT_APP_BACKEND_URL;
 const Home = () => {
+    
     const [events, setEvents] = useState([])
-useEffect(() => {
     const fetchEvents = async () => {
         console.log("Fetching from:", `${URL}/admin/events`);
 
@@ -18,6 +19,8 @@ useEffect(() => {
         }
 
     }
+useEffect(() => {
+
     fetchEvents()
 
 },[])
@@ -27,9 +30,10 @@ useEffect(() => {
             <h1>Welcome to the Home Page</h1>
             <div className="events">
             {events && events.map((event) => (
-                <EventDetails key={event._id} event={event}/>
+                <EventDetails key={event._id} event={event} fetchEvents={fetchEvents}/>
             ))}
             </div>
+            <EventForm fetchEvents={fetchEvents}/>
 
         </div>
     );

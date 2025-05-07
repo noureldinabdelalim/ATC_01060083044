@@ -2,11 +2,20 @@ const Event = require('../models/Event');
 const mongoose = require('mongoose')
 createEvent = async (req, res) => {
 
-    const { title, description, date, time, location, eventImage } = req.body
+    const { title, description, date, time, location, eventImage, availableTickets } = req.body
     try {
-        const event = await Event.create({title,description,date,time,location,eventImage
+        const event = await Event.create({title,description,date,time,location,eventImage,availableTickets
         })
-        res.status(200).json({mssg: 'Event created successfully', event})
+        res.status(200).json({mssg: 'Event created successfully', event: {
+            _id: event._id, 
+            title: event.title,
+            description: event.description,
+            date: event.date,
+            time: event.time,
+            location: event.location,
+            eventImage: event.eventImage,
+            availableTickets: event.availableTickets,
+        }})
     }
     catch (error) {
         console.error(error)
@@ -64,9 +73,9 @@ const updateEvent = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({mssg: 'Invalid event ID'})
     }
-    const { title, description, date, time, location, eventImage } = req.body
+    const { title, description, date, time, location, eventImage,availableTickets } = req.body
     try {
-        const event = await Event.findByIdAndUpdate({_id: id}, {title,description,date,time,location,eventImage}, {new: true})
+        const event = await Event.findByIdAndUpdate({_id: id}, {title,description,date,time,location,eventImage,availableTickets}, {new: true})
         res.status(200).json({mssg: 'Event updated successfully', event})
     } catch (error) {
         console.error(error)
