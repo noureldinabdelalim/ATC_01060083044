@@ -3,6 +3,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const userRoutes = require('./routes/userRoutes')
 const adminRoutes = require('./routes/adminRoutes')
+const guestRoutes = require('./routes/guestRoutes')
 require('dotenv').config()
 const app = express()
 app.use(cors())
@@ -14,6 +15,7 @@ app.use((req,res, next) => {
 })
 
 app.use('/user', userRoutes)
+app.use('/guest', guestRoutes)
 app.use('/admin', adminRoutes)
 
 app.get('/', (req,res) => {
