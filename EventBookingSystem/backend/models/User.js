@@ -52,9 +52,33 @@ const userSchema = new Schema({
     newestOTP: {
         type: String,
         required: false
+    },
+    otpExpiry:{
+        type: Date
     }
 }, { timestamps: true })
 
+userSchema.statics.updatePass = async function(email,password){
+    if (!email || !password) {
+        console.log('email', email)
+        console.log('password', password)
+        throw Error('All fields must be filled')
+    }
+
+    const user = await this.findOne({ email })
+    if (!user) {
+        throw Error('Incorrect email')
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(password,salt)
+    user.password = hash;
+    await user.save();
+    return {message: 'Updated'}
+
+
+
+}
 
 userSchema.statics.register = async function( name,phone, address, dob, nationalId, email,password) {
 

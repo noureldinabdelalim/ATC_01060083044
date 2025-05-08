@@ -1,4 +1,6 @@
 const User = require('../models/User')
+const nodemailer = require('nodemailer');
+
 const jwt = require('jsonwebtoken')
 const createToken = (_id, name, role) => {
     return jwt.sign({ _id, name, role }, process.env.JWT_SECRET, { expiresIn: '1d' })
@@ -34,5 +36,81 @@ const registerUser = async (req, res) => {
 
 }
 
+const requestOtp = async (req, res) => {
+    const { email } = req.body;
 
-module.exports = {loginUser, registerUser}
+    try {
+        // Check if the user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Generate a 6-digit OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+        // Set OTP expiration time (e.g., 10 minutes from now)
+        const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
+        // Save OTP and expiration time in the database
+        user.newestOTP = otp;
+        user.otpExpiry = otpExpiresAt;
+        await user.save();
+
+        // Send OTP via email
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL, // Your email
+                pass: process.env.EMAIL_PASSWORD // Your email password
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: 'Your OTP Code',
+            text: `Your OTP code is ${otp}. It will expire in 10 minutes.`
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json({ message: 'OTP sent to your email' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to send OTP' });
+    }
+};
+const verifyOtp = async (req, res) => {
+    const { email, otp, newPass } = req.body;
+
+    try {
+        // Check if the user exists
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Check if the OTP matches and is not expired
+        if (user.newestOTP !== otp || user.otpExpiry < new Date()) {
+            return res.status(400).json({ error: 'Invalid or expired OTP' });
+        }
+
+        // Clear the OTP fields after successful verification
+        user.otp = null;
+        user.otpExpiresAt = null;
+        await user.save();
+        await User.updatePass(email,newPass)
+
+
+        res.status(200).json({ message: 'OTP verified successfully and password changed' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to verify OTP' });
+    }
+};
+
+
+
+
+module.exports = {loginUser, registerUser, requestOtp, verifyOtp}

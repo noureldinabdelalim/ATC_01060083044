@@ -21,9 +21,12 @@ const eventSchema = new Schema({
         type: String,
         required: true
     },
-    availableTickets: {
+    totalTickets:{
         type: Number,
         required: true
+    },
+    availableTickets: {
+        type: Number
     },
     createdAt: {
         type: Date,
@@ -40,6 +43,20 @@ const eventSchema = new Schema({
     userImages: {
         type: [String],
         required: false
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    venue: {
+        type: String,
+        required: true
     }
 }, { timestamps: true })
+eventSchema.pre('save', function (next) {
+    if (this.isNew && this.availableTickets === undefined) {
+        this.availableTickets = this.totalTickets;
+    }
+    next();
+});
 module.exports = mongoose.model('Event', eventSchema)
