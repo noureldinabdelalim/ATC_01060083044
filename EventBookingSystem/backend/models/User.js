@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const validator = require('validator')
 const bcrypt =  require('bcrypt')
+const { use } = require('react')
 const userSchema = new Schema({
     name: {
         type: String,
@@ -48,6 +49,10 @@ const userSchema = new Schema({
         enum: ['admin', 'user'],
         default: 'user'
     },
+    newestOTP: {
+        type: String,
+        required: false
+    }
 }, { timestamps: true })
 
 
@@ -83,6 +88,25 @@ userSchema.statics.register = async function( name,phone, address, dob, national
 
 
 
+}
+userSchema.statics.login = async function(email, password) {
+    if (!email || !password) {
+        console.log('email', email)
+        console.log('password', password)
+        throw Error('All fields must be filled')
+    }
+
+    const user = await this.findOne({ email })
+    if (!user) {
+        throw Error('Incorrect email')
+    }
+
+    const match = await bcrypt.compare(password, user.password)
+    if (!match) {
+        throw Error('Incorrect password')
+    }
+
+    return user
 }
 // Hash password before saving
 // userSchema.pre('save', async function (next) {
