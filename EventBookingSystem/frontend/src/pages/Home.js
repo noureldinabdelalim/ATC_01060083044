@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import EventDetails from "../components/EventDetails"
 import EventForm from "../components/EventForm"
+import { useAuthContext } from "../hooks/useAuthContext";
 const URL = process.env.REACT_APP_BACKEND_URL;
 const Home = () => {
+    const {user} = useAuthContext()
+
     
     const [events, setEvents] = useState([])
     const fetchEvents = async () => {
         console.log("Fetching from:", `${URL}/admin/events`);
 
-        const response = await fetch(`${URL}/admin/events`)
+        const response = await fetch(`${URL}/admin/events` , {
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+    })
         const json = await response.json()
 
         if (response.ok) {
@@ -21,9 +28,12 @@ const Home = () => {
     }
 useEffect(() => {
 
-    fetchEvents()
+    if(user){
 
-},[])
+        fetchEvents()
+    }
+
+},[user])
 
     return (
         <div className="Home">

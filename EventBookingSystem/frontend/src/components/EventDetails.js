@@ -1,9 +1,18 @@
+import { useAuthContext } from "../hooks/useAuthContext";
+
 const EventDetails = ({ event , fetchEvents }) => {
 
+    const {user} = useAuthContext()
 const handleClick = async () => {
+    if(!user){
+        return
+    }
     const URL = process.env.REACT_APP_BACKEND_URL;
     const response = await fetch(`${URL}/admin/event/${event._id}`, {
         method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${user.token}`
+        }
     })
     const json = await response.json()
     if (response.ok) {

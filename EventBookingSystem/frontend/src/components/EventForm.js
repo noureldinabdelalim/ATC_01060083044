@@ -1,7 +1,9 @@
 import { useState } from "react"
+import { useAuthContext } from "../hooks/useAuthContext"
 // import { useEventsContext } from '../hooks/useEventsContext'
 
 const EventForm = ({ fetchEvents}) => {
+    const {user} = useAuthContext()
     const [title, setTitle] = useState("")
     const [date, setDate] = useState("")
     const [location, setLocation] = useState("")
@@ -15,6 +17,10 @@ const EventForm = ({ fetchEvents}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        if(!user){
+            setError("Log in first")
+            return
+        }
 
         let imageUrl = "";
 
@@ -35,7 +41,10 @@ const EventForm = ({ fetchEvents}) => {
         console.log(event)
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/event`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json" ,
+                'Authorization': `Bearer ${user.token}`
+            },
             body: JSON.stringify(event),
         })
         const json = await response.json()
