@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
-import UserHome from "./pages/userHome";
+// import UserHome from "./pages/userHome";
 import Otp from "./pages/Otp";
 import Footer from "./components/Footer";
 
@@ -47,13 +47,13 @@ function App() {
             {/* <Route path="/forgotPassword" element={!user ? <Otp /> : <Navigate to="/"/>} /> */}
 
             //user routes
-            <Route path="/user" element={
+            {/* <Route path="/user" element={
                 user
                   ? user.role === "user"
                     ? <UserHome />
                     : <Navigate to="/login" />
                   : <Navigate to="/login" />
-              } />
+              } /> */}
 
 
           
