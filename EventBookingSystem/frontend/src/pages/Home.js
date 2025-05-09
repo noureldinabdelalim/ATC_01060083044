@@ -9,9 +9,9 @@ const Home = () => {
     
     const [events, setEvents] = useState([])
     const fetchEvents = async () => {
-        console.log("Fetching from:", `${URL}/admin/events`);
+        console.log("Fetching from:", `${URL}/event`);
 
-        const response = await fetch(`${URL}/admin/events` , {
+        const response = await fetch(`${URL}/event` , {
             headers: {
                 'Authorization': `Bearer ${user.token}`
             }
