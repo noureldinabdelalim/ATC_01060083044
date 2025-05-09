@@ -17,6 +17,9 @@ const Home = () => {
             }
     })
         const json = await response.json()
+        for ( let i = 0; i < json.length; i++) {
+            console.log(json[i].userImages)
+        }
 
         if (response.ok) {
             setEvents(json)
@@ -37,7 +40,7 @@ useEffect(() => {
 
     return (
         <div className="Home">
-            <h1>Welcome to the Home Page</h1>
+            <h1>Welcome to the Admin Home Page</h1>
             <div className="events">
             {events && events.map((event) => (
                 <EventDetails key={event._id} event={event} fetchEvents={fetchEvents}/>

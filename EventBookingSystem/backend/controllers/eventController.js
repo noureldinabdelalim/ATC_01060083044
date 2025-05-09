@@ -2,7 +2,7 @@ const Event = require('../models/Event');
 const mongoose = require('mongoose')
 createEvent = async (req, res) => {
 
-    const { title, description, date, time, location, eventImage, availableTickets } = req.body
+    const { title, description, date, time, location, eventImage, totalTickets, price, venue, extraImages } = req.body
     
     let emptyFields = []
     if (!title) {
@@ -11,6 +11,7 @@ createEvent = async (req, res) => {
     if (!description) {
         emptyFields.push('description')
     }
+
     if (!date) {
         emptyFields.push('date')
     }
@@ -20,23 +21,32 @@ createEvent = async (req, res) => {
     if (!location) {
         emptyFields.push('location')
     }
-    if (!availableTickets) {
-        emptyFields.push('availableTickets')
+    if (!totalTickets) {
+        emptyFields.push('totalTickets')
+    }
+    if (!price) {
+        emptyFields.push('price')
+    }
+    if (!venue) {
+        emptyFields.push('venue')
+    }
+    if (!extraImages) {
+        emptyFields.push('extraImages')
     }
 
     if (!eventImage) {
         return res.status(400).json({mssg: 'Please provide an image'})
     }
-    if (availableTickets <= 0) {
-        return res.status(400).json({mssg: 'Available tickets must be greater than 0'})
+    if (totalTickets <= 0) {
+        return res.status(400).json({mssg: 'Tickets must be greater than 0'})
     }
     if (emptyFields.length > 0) {
         return res.status(400).json({mssg: 'Please fill in all fields', emptyFields})
     }
     
     try {
-        const event = await Event.create({title,description,date,time,location,eventImage,availableTickets
-        })
+        const event = await Event.create({title,description,date,time,location,eventImage,totalTickets,availableTickets: totalTickets, price, venue, extraImages})
+        
         res.status(200).json({mssg: 'Event created successfully', event: {
             _id: event._id, 
             title: event.title,
@@ -46,6 +56,10 @@ createEvent = async (req, res) => {
             location: event.location,
             eventImage: event.eventImage,
             availableTickets: event.availableTickets,
+            totalTickets: event.totalTickets,
+            price: event.price,
+            venue: event.venue,
+            extraImages: event.extraImages
         }})
     }
     catch (error) {

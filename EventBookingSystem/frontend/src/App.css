@@ -13,6 +13,21 @@
   }
 }
 
+body.dark-mode {
+  background-color: #6f6c6c; /* Dark background */
+  color: #ffffff; /* Light text color */
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p {
+  color: #ffffff; /* Light text color for headings and paragraphs */
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
