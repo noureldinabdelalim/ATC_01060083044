@@ -40,7 +40,7 @@ const eventSchema = new Schema({
         type: String,
         required: false
     },
-    userImages: {
+    extraImages: {
         type: [String],
         required: false
     },

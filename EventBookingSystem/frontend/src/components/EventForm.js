@@ -14,6 +14,9 @@ const EventForm = ({ fetchEvents}) => {
     const [time, setTime] = useState("")
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
+    const [venue, setVenue] = useState("")
+    const [price, setPrice] = useState(0)
+    const [extraImages, setExtraImages] = useState([])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -37,7 +40,23 @@ const EventForm = ({ fetchEvents}) => {
             const cloudJson = await cloudRes.json();
             imageUrl = cloudJson.secure_url; 
         }
-        const event = { title, date, location, description, eventImage: imageUrl, tag, availableTickets, time }
+        let extraImageUrls = [];
+        if (extraImages.length > 0) {
+            const extraImagePromises = extraImages.map(async (image) => {
+                const imageData = new FormData();
+                imageData.append("file", image);
+                imageData.append("upload_preset", "EventSystem1");
+
+                const cloudRes = await fetch("https://api.cloudinary.com/v1_1/do4wkv0zn/image/upload", {
+                    method: "POST",
+                    body: imageData
+                });
+                const cloudJson = await cloudRes.json();
+                extraImageUrls.push(cloudJson.secure_url);
+            })
+            await Promise.all(extraImagePromises);
+        }
+        const event = { title, date, location, description, eventImage: imageUrl, tag, totalTickets: availableTickets, time, price, venue, extraImages: extraImageUrls }
         console.log(event)
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/event`, {
             method: "POST",
@@ -58,6 +77,9 @@ const EventForm = ({ fetchEvents}) => {
             setTag("")
             setAvailableTickets(0)
             setTime("")
+            setPrice(0)
+            setVenue("")
+            setExtraImages([])
             fetchEvents()
             setError(null)
             setEmptyFields([])
@@ -126,6 +148,23 @@ const EventForm = ({ fetchEvents}) => {
                 value={availableTickets}
                 onChange={(e) => setAvailableTickets(e.target.value)}
             />
+            <label>Price:</label>
+            <input
+                type="number"
+                required
+                className={emptyFields.includes("price") ? "error" : ""}
+                min="0"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+            />
+            <label>Venue:</label>   
+            <input
+                type="text"
+                required
+                className={emptyFields.includes("venue") ? "error" : ""}
+                value={venue}
+                onChange={(e) => setVenue(e.target.value)}
+            />
             <label>Event Image:</label>
             <input
                 type="file"
@@ -133,6 +172,25 @@ const EventForm = ({ fetchEvents}) => {
                 accept="image/*"
                 onChange={(e) => setEventImage(e.target.files[0])}
             />
+            <label>Extra Images:</label>
+            <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(e) => setExtraImages(Array.from(e.target.files))}
+            />
+            {extraImages.length > 0 && (
+                <div className="extra-images-preview">
+                    {extraImages.map((image, index) => (
+                        <img
+                            key={index}
+                            src={URL.createObjectURL(image)}
+                            alt={`Extra Image ${index + 1}`}
+                            className="extra-image"
+                        />
+                    ))}
+                </div>
+            )}
             <button className="btn">Create Event</button>
             {error && <div className="error">{error}</div>}
         </form>
