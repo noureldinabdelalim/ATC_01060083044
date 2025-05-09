@@ -1,13 +1,16 @@
 const User = require('../models/User')
+const Event = require('../models/Event');
 
 
 
 const bookEvent = async (req, res) => {
-    const { eventId } = req.body; 
+    const { id: eventId } = req.params; 
     const user = req.user; 
 
     try {
         // Check if the event exists
+        console.log(eventId)
+        console.log(user._id)
         const event = await Event.findById(eventId);
         if (!event) {
             return res.status(404).json({ error: 'Event not found' });
@@ -22,8 +25,11 @@ const bookEvent = async (req, res) => {
         event.availableTickets -= 1;
         await event.save();
 
+        if (!user.bookedEvents) {
+            user.bookedEvents = []; // Initialize bookedEvents if it is undefined
+        }
         // Add the booking to the user's bookings array
-        user.bookings.push({ eventId });
+        user.bookedEvents.push( eventId );
         await user.save();
 
         res.status(200).json({ message: 'Booking successful', event, user });

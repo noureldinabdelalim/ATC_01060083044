@@ -4,8 +4,50 @@ import { useAuthContext } from "../hooks/useAuthContext";
 const EventDetails = ({ event, fetchEvents }) => {
     const { user } = useAuthContext();
     const [isExpanded, setIsExpanded] = useState(false);
+    const isAdmin = user?.role === "admin"; // Check if the user is an admin
+    const hasBooked = user?.bookedEvents?.includes(event._id); // Check if the user has already booked the event
+    const isSoldOut = event.availableTickets <= 0;
 
-    const handleClick = async () => {
+        const handleBookNow = async () => {
+        if (!user) return;
+
+        console.log("Booking event:", event._id);
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/book/${event._id}`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            },
+        });
+
+        const json = await response.json();
+        if (response.ok) {
+            console.log("Booking successful:", json);
+            fetchEvents(); // Refresh events
+        } else {
+            console.log("Error booking event:", json.error);
+        }
+    };
+
+        const handleCancelBooking = async () => {
+        if (!user) return;
+
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/cancel/${event._id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            },
+        });
+
+        const json = await response.json();
+        if (response.ok) {
+            console.log("Booking canceled:", json);
+            fetchEvents(); // Refresh events
+        } else {
+            console.log("Error canceling booking:", json.error);
+        }
+    };
+
+    const handleDeleteEvent = async () => {
         if (!user) return;
 
         const URL = process.env.REACT_APP_BACKEND_URL;
@@ -43,10 +85,30 @@ const EventDetails = ({ event, fetchEvents }) => {
         >
             {isExpanded ? "Hide Details" : "View Details"}
         </button>
-        <button type="button" className="btn btn-secondary">Edit Details</button>
-        <button type="button" className="btn btn-danger" onClick={handleClick}>
-            Delete
-        </button>
+       {isAdmin && (
+                        <>
+                            <button className="btn btn-secondary">Edit</button>
+                            <button className="btn btn-danger" onClick={handleDeleteEvent}>Delete</button>
+                        </>
+                    )}
+        {!isAdmin && (
+                        <>
+                            <button
+                                className="btn btn-success"
+                                onClick={handleBookNow}
+                                disabled={hasBooked || isSoldOut}
+                            >
+                                {isSoldOut ? "Sold Out" : hasBooked ? "Already Booked" : "Book Now"}
+                            </button>
+                            <button
+                                className="btn btn-warning"
+                                onClick={handleCancelBooking}
+                                disabled={!hasBooked}
+                            >
+                                {hasBooked ? "Cancel Booking" : "Not Booked"}
+                            </button>
+                        </>
+                    )}
     </div>
             <div className="card-body d-flex">
                 {/* Event Image */}
