@@ -130,4 +130,6 @@ const cancelBooking = async (req, res) => {
 
 
 
+
+
 module.exports = {bookEvent, getMyBookings, cancelBooking}

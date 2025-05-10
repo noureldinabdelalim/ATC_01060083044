@@ -11,5 +11,12 @@ router.post('/requestOtp',requestOtp)
 
 router.post('/verifyOtp',verifyOtp)
 
+// temp route to add admin
+// router.post('/addAdmin', createAdmin)
+
+// router.delete('/deleteAdmin', deleteAdmin)
+
+
+
 
 module.exports = router
