@@ -1,28 +1,27 @@
-import { useState } from "react"
-import { useAuthContext } from "../hooks/useAuthContext"
-// import { useEventsContext } from '../hooks/useEventsContext'
+import { useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-const EventForm = ({ fetchEvents}) => {
-    const {user} = useAuthContext()
-    const [title, setTitle] = useState("")
-    const [date, setDate] = useState("")
-    const [location, setLocation] = useState("")
-    const [description, setDescription] = useState("")
-    const [eventImage, setEventImage] = useState(null)
-    const [tag, setTag] = useState("")
-    const [availableTickets, setAvailableTickets] = useState(0)
-    const [time, setTime] = useState("")
-    const [error, setError] = useState(null)
-    const [emptyFields, setEmptyFields] = useState([])
-    const [venue, setVenue] = useState("")
-    const [price, setPrice] = useState(0)
-    const [extraImages, setExtraImages] = useState([])
+const EventForm = ({ fetchEvents }) => {
+    const { user } = useAuthContext();
+    const [title, setTitle] = useState("");
+    const [date, setDate] = useState("");
+    const [location, setLocation] = useState("");
+    const [description, setDescription] = useState("");
+    const [eventImage, setEventImage] = useState(null);
+    const [tag, setTag] = useState("");
+    const [availableTickets, setAvailableTickets] = useState(0);
+    const [time, setTime] = useState("");
+    const [error, setError] = useState(null);
+    const [emptyFields, setEmptyFields] = useState([]);
+    const [venue, setVenue] = useState("");
+    const [price, setPrice] = useState(0);
+    const [extraImages, setExtraImages] = useState([]);
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        if(!user){
-            setError("Log in first")
-            return
+        e.preventDefault();
+        if (!user) {
+            setError("Log in first");
+            return;
         }
 
         let imageUrl = "";
@@ -30,16 +29,17 @@ const EventForm = ({ fetchEvents}) => {
         if (eventImage) {
             const imageData = new FormData();
             imageData.append("file", eventImage);
-            imageData.append("upload_preset", "EventSystem1"); 
-    
+            imageData.append("upload_preset", "EventSystem1");
+
             const cloudRes = await fetch("https://api.cloudinary.com/v1_1/do4wkv0zn/image/upload", {
                 method: "POST",
-                body: imageData
+                body: imageData,
             });
-    
+
             const cloudJson = await cloudRes.json();
-            imageUrl = cloudJson.secure_url; 
+            imageUrl = cloudJson.secure_url;
         }
+
         let extraImageUrls = [];
         if (extraImages.length > 0) {
             const extraImagePromises = extraImages.map(async (image) => {
@@ -49,152 +49,201 @@ const EventForm = ({ fetchEvents}) => {
 
                 const cloudRes = await fetch("https://api.cloudinary.com/v1_1/do4wkv0zn/image/upload", {
                     method: "POST",
-                    body: imageData
+                    body: imageData,
                 });
                 const cloudJson = await cloudRes.json();
                 extraImageUrls.push(cloudJson.secure_url);
-            })
+            });
             await Promise.all(extraImagePromises);
         }
-        const event = { title, date, location, description, eventImage: imageUrl, tag, totalTickets: availableTickets, time, price, venue, extraImages: extraImageUrls }
-        console.log(event)
+
+        const event = {
+            title,
+            date,
+            location,
+            description,
+            eventImage: imageUrl,
+            tag,
+            totalTickets: availableTickets,
+            time,
+            price,
+            venue,
+            extraImages: extraImageUrls,
+        };
+
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/event`, {
             method: "POST",
-            headers: { 
-                "Content-Type": "application/json" ,
-                'Authorization': `Bearer ${user.token}`
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user.token}`,
             },
             body: JSON.stringify(event),
-        })
-        const json = await response.json()
-        if (response.ok) {
-            console.log("Event created:", json)
-            setTitle("")
-            setDate("")
-            setLocation("")
-            setDescription("")
-            setEventImage(null)
-            setTag("")
-            setAvailableTickets(0)
-            setTime("")
-            setPrice(0)
-            setVenue("")
-            setExtraImages([])
-            fetchEvents()
-            setError(null)
-            setEmptyFields([])
+        });
 
+        const json = await response.json();
+        if (response.ok) {
+            console.log("Event created:", json);
+            setTitle("");
+            setDate("");
+            setLocation("");
+            setDescription("");
+            setEventImage(null);
+            setTag("");
+            setAvailableTickets(0);
+            setTime("");
+            setPrice(0);
+            setVenue("");
+            setExtraImages([]);
+            fetchEvents();
+            setError(null);
+            setEmptyFields([]);
         } else {
-            console.log("Error creating event:", json)
-            setEmptyFields(json.emptyFields)
-            setError(json.error)
+            console.log("Error creating event:", json);
+            setEmptyFields(json.emptyFields);
+            setError(json.error);
         }
-    }
+    };
 
     return (
-        <form className="create" onSubmit={handleSubmit}>
-            <h2>Create a new event</h2>
-            <label>Event Title:</label>
-            <input
-                type="text"
-                required
-                value={title}
-                className={emptyFields.includes("title") ? "error" : ""}
-                onChange={(e) => setTitle(e.target.value)}
-            />
-            <label>Date:</label>
-            <input
-                type="date"
-                required
-                className={emptyFields.includes("date") ? "error" : ""}
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-            />
-            <label>Time:</label>
-            <input 
-                type="time"
-                required
-                className={emptyFields.includes("time") ? "error" : ""}
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-            />
-            <label>Location:</label>
-            <input
-                type="text"
-                required
-                className={emptyFields.includes("location") ? "error" : ""}
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-            />
-            <label>Description:</label>
-            <textarea
-                required
-                className={emptyFields.includes("description") ? "error" : ""}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
-            <label>Tag:</label>
-            <input
-                type="text"
-                value={tag}
-                onChange={(e) => setTag(e.target.value)}
-            />
-            <label>Available Tickets:</label>
-            <input
-                type="number"
-                required
-                className={emptyFields.includes("availableTickets") ? "error" : ""}
-                min="0"
-                value={availableTickets}
-                onChange={(e) => setAvailableTickets(e.target.value)}
-            />
-            <label>Price:</label>
-            <input
-                type="number"
-                required
-                className={emptyFields.includes("price") ? "error" : ""}
-                min="0"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-            />
-            <label>Venue:</label>   
-            <input
-                type="text"
-                required
-                className={emptyFields.includes("venue") ? "error" : ""}
-                value={venue}
-                onChange={(e) => setVenue(e.target.value)}
-            />
-            <label>Event Image:</label>
-            <input
-                type="file"
-
-                accept="image/*"
-                onChange={(e) => setEventImage(e.target.files[0])}
-            />
-            <label>Extra Images:</label>
-            <input
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={(e) => setExtraImages(Array.from(e.target.files))}
-            />
-            {extraImages.length > 0 && (
-                <div className="extra-images-preview">
-                    {extraImages.map((image, index) => (
-                        <img
-                            key={index}
-                            src={URL.createObjectURL(image)}
-                            alt={`Extra Image ${index + 1}`}
-                            className="extra-image"
-                        />
-                    ))}
+               <div style={{ width: "50%", margin: "0 auto", textAlign: "left" }}> {/* Adjust the width here */}
+            <form className="needs-validation" onSubmit={handleSubmit} noValidate>
+                <h2>Create a new event</h2>
+                <div className="mb-3">
+                    <label htmlFor="title" className="form-label">Event Title:</label>
+                    <input
+                        type="text"
+                        className={`form-control ${emptyFields.includes("title") ? "is-invalid" : ""}`}
+                        id="title"
+                        placeholder="Enter event title"
+                        required
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    <div className="valid-feedback">Valid.</div>
+                    <div className="invalid-feedback">Please fill out this field.</div>
                 </div>
-            )}
-            <button className="btn">Create Event</button>
-            {error && <div className="error">{error}</div>}
-        </form>
-        
-    )
-}
-export default EventForm
+
+                <div className="mb-3">
+                    <label htmlFor="date" className="form-label">Date:</label>
+                    <input
+                        type="date"
+                        className={`form-control ${emptyFields.includes("date") ? "is-invalid" : ""}`}
+                        id="date"
+                        required
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                    />
+                    <div className="valid-feedback">Valid.</div>
+                    <div className="invalid-feedback">Please select a date.</div>
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="time" className="form-label">Time:</label>
+                    <input
+                        type="time"
+                        className={`form-control ${emptyFields.includes("time") ? "is-invalid" : ""}`}
+                        id="time"
+                        required
+                        value={time}
+                        onChange={(e) => setTime(e.target.value)}
+                    />
+                    <div className="valid-feedback">Valid.</div>
+                    <div className="invalid-feedback">Please select a time.</div>
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="location" className="form-label">Location:</label>
+                    <input
+                        type="text"
+                        className={`form-control ${emptyFields.includes("location") ? "is-invalid" : ""}`}
+                        id="location"
+                        placeholder="Enter location"
+                        required
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                    />
+                    <div className="valid-feedback">Valid.</div>
+                    <div className="invalid-feedback">Please fill out this field.</div>
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="description" className="form-label">Description:</label>
+                    <textarea
+                        className={`form-control ${emptyFields.includes("description") ? "is-invalid" : ""}`}
+                        id="description"
+                        placeholder="Enter event description"
+                        required
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    ></textarea>
+                    <div className="valid-feedback">Valid.</div>
+                    <div className="invalid-feedback">Please fill out this field.</div>
+                </div>
+                <label>Tag:</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    value={tag}
+                    onChange={(e) => setTag(e.target.value)}
+                />
+                <label>Available Tickets:</label>
+                <input
+                    type="number"
+                    className={`form-control ${emptyFields.includes("availableTickets") ? "error" : ""}`}
+                    required
+                    min="0"
+                    value={availableTickets}
+                    onChange={(e) => setAvailableTickets(e.target.value)}
+                />
+                <label>Price:</label>
+                <input
+                    type="number"
+                    className={`form-control ${emptyFields.includes("price") ? "error" : ""}`}
+                    required
+                    min="0"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                />
+                <label>Venue:</label>
+                <input
+                    type="text"
+                    className={`form-control ${emptyFields.includes("venue") ? "error" : ""}`}
+                    required
+                    value={venue}
+                    onChange={(e) => setVenue(e.target.value)}
+                />
+                <label>Event Image:</label>
+                <input
+                    type="file"
+                    className="form-control"
+                    accept="image/*"
+                    onChange={(e) => setEventImage(e.target.files[0])}
+                />
+                <label>Extra Images:</label>
+                <input
+                    type="file"
+                    className="form-control"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) => setExtraImages(Array.from(e.target.files))}
+                />
+                {extraImages.length > 0 && (
+                    <div className="extra-images-preview">
+                        {extraImages.map((image, index) => (
+                            <img
+                                key={index}
+                                src={URL.createObjectURL(image)}
+                                alt={`Extra Image ${index + 1}`}
+                                className="extra-image"
+                            />
+                        ))}
+                    </div>
+                )}
+                <button className="btn btn-primary">Create Event</button>
+                {error && <div className="error">{error}</div>}
+            </form>
+        </div>
+    );
+};
+
+export default EventForm;

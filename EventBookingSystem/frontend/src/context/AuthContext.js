@@ -25,6 +25,22 @@ export const AuthContextProvider = ({ children }) => {
         const user = JSON.parse(localStorage.getItem("user"));
         if (user) {
             dispatch({ type: "LOGIN", payload: user });
+
+            // Fetch bookings after login
+            const fetchBookings = async () => {
+                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/myBookings`, {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
+
+                const bookings = await response.json();
+                if (response.ok) {
+                    dispatch({ type: "SET_BOOKINGS", payload: bookings });
+                }
+            };
+
+            fetchBookings();
         }
     }, []);
 

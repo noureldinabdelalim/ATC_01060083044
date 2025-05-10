@@ -146,6 +146,102 @@ const EventDetails = ({ event, fetchEvents }) => {
                     </p>
                 </div>
             </div>
+         {isExpanded && (
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col">
+                            <p style={{ textAlign: "left" }}>
+                                <strong>Description: </strong>
+                                <br />
+                                {event.description}
+                            </p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-4">
+                            <p style={{ textAlign: "left" }}>
+                                <strong>Location: </strong>
+                                {event.location}
+                            </p>
+                        </div>
+                        <div className="col-sm-8">
+                            <p style={{ textAlign: "left" }}>
+                                <strong>Time: </strong>
+                                {event.time}
+                            </p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-sm-4">
+                            <p style={{ textAlign: "left" }}>
+                                <strong>Venue: </strong>
+                                {event.venue}
+                            </p>
+                        </div>
+                        <div className="col-sm-8">
+                            <p style={{ textAlign: "left" }}>
+                                <strong>Tag: </strong>
+                                {event.tag}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Carousel for extraImages */}
+                    {event.extraImages && event.extraImages.length > 0 && (
+                        <div id={`carousel-${event._id}`} className="carousel slide" data-bs-ride="carousel">
+                            {/* Indicators */}
+                            <div className="carousel-indicators">
+                                {event.extraImages.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        type="button"
+                                        data-bs-target={`#carousel-${event._id}`}
+                                        data-bs-slide-to={index}
+                                        className={index === 0 ? "active" : ""}
+                                        aria-current={index === 0 ? "true" : undefined}
+                                        aria-label={`Slide ${index + 1}`}
+                                    ></button>
+                                ))}
+                            </div>
+
+                            {/* Carousel Items */}
+                            <div className="carousel-inner">
+                                {event.extraImages.map((image, index) => (
+                                    <div
+                                        key={index}
+                                        className={`carousel-item ${index === 0 ? "active" : ""}`}
+                                    >
+                                        <img
+                                            src={image}
+                                            alt={`Slide ${index + 1}`}
+                                            className="d-block w-100"
+                                            style={{ maxHeight: "400px", objectFit: "cover" }}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Controls */}
+                            <button
+                                className="carousel-control-prev"
+                                type="button"
+                                data-bs-target={`#carousel-${event._id}`}
+                                data-bs-slide="prev"
+                            >
+                                <span className="carousel-control-prev-icon"></span>
+                            </button>
+                            <button
+                                className="carousel-control-next"
+                                type="button"
+                                data-bs-target={`#carousel-${event._id}`}
+                                data-bs-slide="next"
+                            >
+                                <span className="carousel-control-next-icon"></span>
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
