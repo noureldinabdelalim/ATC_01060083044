@@ -4,9 +4,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import CreateEvent from "./pages/CreateEvent";
 import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import EditEvent from "./pages/EditEvent";
+import BookingConfirmation from "./pages/BookingCofirmation";
 import Otp from "./pages/Otp";
 function App() {
   const {user} = useAuthContext()
@@ -30,12 +33,34 @@ function App() {
         <Navbar />
         <div className="pages">
           <Routes>
-            <Route path="/" element={user ? <Home /> : <Navigate to="/login"/>} />
-            <Route path="/login" element={!user ? <Login /> : <Navigate to="/"/>} />
-            <Route path="/register" element={!user ? <Register /> : <Navigate to="/"/>} />
-            {/* <Route path="/forgotPassword" element={!user ? <Otp /> : <Navigate to="/"/>} /> */}
+            {/* Public Routes */}
+            <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+            <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
 
-          
+            {/* Protected Routes */}
+            {user && user.role === "admin" && (
+              <>
+                {/* Admin Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/create-event" element={<CreateEvent />} />
+                <Route path="/edit-event/:id" element={<EditEvent />} />
+
+                {/* Add more admin-specific routes here */}
+              </>
+            )}
+
+            {user && user.role === "user" && (
+              <>
+                {/* User Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/booking-confirmation" element={<BookingConfirmation />} />
+                {/* <Route path="/user" element={<UserDashboard />} /> */}
+                {/* Add more user-specific routes here */}
+              </>
+            )}
+
+            {/* Redirect to login if no matching route */}
+            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>
         <Footer />

@@ -2,7 +2,7 @@ const Event = require('../models/Event');
 const mongoose = require('mongoose')
 createEvent = async (req, res) => {
 
-    const { title, description, date, time, location, eventImage, totalTickets, price, venue, extraImages } = req.body
+    const { title, description, date,tag, time, location, eventImage, totalTickets, price, venue, extraImages } = req.body
     
     let emptyFields = []
     if (!title) {
@@ -33,6 +33,9 @@ createEvent = async (req, res) => {
     if (!extraImages) {
         emptyFields.push('extraImages')
     }
+        if (!tag) {
+        emptyFields.push('tag')
+    }
 
     if (!eventImage) {
         return res.status(400).json({mssg: 'Please provide an image'})
@@ -45,7 +48,7 @@ createEvent = async (req, res) => {
     }
     
     try {
-        const event = await Event.create({title,description,date,time,location,eventImage,totalTickets,availableTickets: totalTickets, price, venue, extraImages})
+        const event = await Event.create({title,description,date,time,location,eventImage,totalTickets,availableTickets: totalTickets, price, venue, extraImages, tag})
         
         res.status(200).json({mssg: 'Event created successfully', event: {
             _id: event._id, 
@@ -59,7 +62,8 @@ createEvent = async (req, res) => {
             totalTickets: event.totalTickets,
             price: event.price,
             venue: event.venue,
-            extraImages: event.extraImages
+            extraImages: event.extraImages,
+            tag: event.tag
         }})
     }
     catch (error) {
@@ -118,15 +122,39 @@ const updateEvent = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({mssg: 'Invalid event ID'})
     }
-    const { title, description, date, time, location, eventImage,availableTickets } = req.body
+    const updates = req.body;
+
     try {
-        const event = await Event.findByIdAndUpdate({_id: id}, {title,description,date,time,location,eventImage,availableTickets}, {new: true})
-        res.status(200).json({mssg: 'Event updated successfully', event})
+         const existingEvent = await Event.findById(id);
+        if (!existingEvent) {
+            return res.status(404).json({ error: "Event not found" });
+        }
+
+        // Calculate the number of tickets already booked
+        const ticketsBooked = existingEvent.totalTickets - existingEvent.availableTickets;
+
+        // If `totalTickets` is being updated, adjust `availableTickets` accordingly
+        if (updates.totalTickets !== undefined) {
+            const newTotalTickets = updates.totalTickets;
+
+            // Ensure the new totalTickets is not less than the number of tickets already booked
+            if (newTotalTickets < ticketsBooked) {
+                return res.status(400).json({
+                    error: `Total tickets cannot be less than the number of tickets already booked (${ticketsBooked}).`
+                });
+            }
+
+            // Update availableTickets based on the new totalTickets
+            updates.availableTickets = newTotalTickets - ticketsBooked;
+        }
+
+        // Update the event with the new data
+        const updatedEvent = await Event.findByIdAndUpdate(id, updates, { new: true });
+        res.status(200).json(updatedEvent);
     } catch (error) {
-        console.error(error)
-        res.status(400).json({mssg: 'Error updating event', error})
+        res.status(400).json({ error: error.message });
     }
-}
+};
 
 const addNewUserImage = async (req, res) => {
     const { id } = req.params

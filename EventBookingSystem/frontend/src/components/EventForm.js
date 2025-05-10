@@ -212,33 +212,51 @@ const EventForm = ({ fetchEvents }) => {
                     value={venue}
                     onChange={(e) => setVenue(e.target.value)}
                 />
-                <label>Event Image:</label>
+               <div className="mb-3">
+                <label htmlFor="eventImage" className="form-label">Event Image:</label>
                 <input
                     type="file"
                     className="form-control"
+                    id="eventImage"
                     accept="image/*"
-                    onChange={(e) => setEventImage(e.target.files[0])}
+                    onChange={(e) => {
+                        const file = e.target.files[0];
+                        setEventImage(file);
+                    }}
                 />
-                <label>Extra Images:</label>
+                {eventImage && (
+                    <img
+                        src={URL.createObjectURL(eventImage)}
+                        alt="Event Preview"
+                        style={{ width: "100px", height: "100px", marginTop: "10px" }}
+                    />
+                )}
+            </div>
+
+            <div className="mb-3">
+                <label htmlFor="extraImages" className="form-label">Extra Images:</label>
                 <input
                     type="file"
                     className="form-control"
+                    id="extraImages"
                     accept="image/*"
                     multiple
-                    onChange={(e) => setExtraImages(Array.from(e.target.files))}
+                    onChange={(e) => {
+                        const files = Array.from(e.target.files);
+                        setExtraImages((prevImages) => [...prevImages, ...files]);
+                    }}
                 />
-                {extraImages.length > 0 && (
-                    <div className="extra-images-preview">
-                        {extraImages.map((image, index) => (
-                            <img
-                                key={index}
-                                src={URL.createObjectURL(image)}
-                                alt={`Extra Image ${index + 1}`}
-                                className="extra-image"
-                            />
-                        ))}
-                    </div>
-                )}
+                <div style={{ display: "flex", gap: "10px", marginTop: "10px", flexWrap: "wrap" }}>
+                    {extraImages.map((image, index) => (
+                        <img
+                            key={index}
+                            src={URL.createObjectURL(image)}
+                            alt={`Extra ${index + 1}`}
+                            style={{ width: "100px", height: "100px" }}
+                        />
+                    ))}
+                </div>
+            </div>
                 <button className="btn btn-primary">Create Event</button>
                 {error && <div className="error">{error}</div>}
             </form>

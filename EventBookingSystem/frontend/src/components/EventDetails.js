@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useDarkMode } from "../context/DarkModeContext";
+
 
 const EventDetails = ({ event, fetchEvents }) => {
     const { user, bookings, dispatch } = useAuthContext();
@@ -7,8 +10,14 @@ const EventDetails = ({ event, fetchEvents }) => {
     const hasBooked = bookings?.some((booking) => booking._id === event._id);
     const isAdmin = user?.role === "admin"; 
     const isSoldOut = event.availableTickets <= 0; 
+    const { isDarkMode } = useDarkMode()
+    const navigate = useNavigate();
 
 
+
+    const handleEditEvent = () => {
+        navigate(`/edit-event/${event._id}`); // Redirect to the edit event page
+    };
     const handleBookNow = async () => {
         if (!user) return;
 
@@ -20,11 +29,29 @@ const EventDetails = ({ event, fetchEvents }) => {
             },
         });
 
-        const json = await response.json();
+        const json = await response.json()
         if (response.ok) {
-            console.log("Booking successful:", json);
-            fetchEvents(); 
-            dispatch({ type: "SET_BOOKINGS", payload: [...bookings, event] });
+            console.log("Booking successful:", json)
+            fetchEvents()
+            dispatch({ type: "SET_BOOKINGS", payload: [...bookings, event] })
+                    navigate("/booking-confirmation", {
+            state: {
+                user: {
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone || "N/A",
+                },
+                event: {
+                    title: event.title,
+                    date: event.date,
+                    time: event.time,
+                    location: event.location,
+                    price: event.price,
+                    eventImage: event.eventImage,
+                    extraImages: event.extraImages,
+                },
+            },
+        })
         } else {
             console.log("Error booking event:", json.error);
         }
@@ -71,7 +98,7 @@ const EventDetails = ({ event, fetchEvents }) => {
     };
 
     return (
-        <div className="event-details card" style={{ cursor: "default" }}>
+        <div className={`event-details card ${isDarkMode ? "bg-dark text-light" : ""}`} style={{ cursor: "default" }}>
             <div
                 className="btn-group-vertical"
                 style={{
@@ -90,7 +117,7 @@ const EventDetails = ({ event, fetchEvents }) => {
                 </button>
                 {isAdmin && (
                     <>
-                        <button className="btn btn-secondary">Edit</button>
+                        <button className="btn btn-secondary" onClick={handleEditEvent}>Edit</button>
                         <button className="btn btn-danger" onClick={handleDeleteEvent}>
                             Delete
                         </button>
