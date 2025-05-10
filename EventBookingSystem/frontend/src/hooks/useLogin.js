@@ -38,6 +38,17 @@ export const useLogin = () => {
     
             // Update the auth context
             dispatch({ type: 'LOGIN', payload: json });
+
+            const bookingsResponse = await fetch(`${URL}/user/myBookings`, {
+            headers: {
+                Authorization: `Bearer ${json.token}`,
+            },
+        });
+
+        const bookings = await bookingsResponse.json();
+        if (bookingsResponse.ok) {
+            dispatch({ type: "SET_BOOKINGS", payload: bookings });
+        }
     
             setIsLoading(false);
         } catch (error) {

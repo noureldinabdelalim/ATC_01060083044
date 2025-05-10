@@ -9,8 +9,7 @@ const bookEvent = async (req, res) => {
 
     try {
         // Check if the event exists
-        console.log(eventId)
-        console.log(user._id)
+        
         const event = await Event.findById(eventId);
         if (!event) {
             return res.status(404).json({ error: 'Event not found' });
@@ -30,6 +29,8 @@ const bookEvent = async (req, res) => {
         }
         // Add the booking to the user's bookings array
         user.bookedEvents.push( eventId );
+        console.log(user.bookedEvents)
+
         await user.save();
 
         res.status(200).json({ message: 'Booking successful', event, user });
@@ -43,6 +44,7 @@ const getMyBookings = async (req, res) => {
 
     try {
         const userWithBookings = await User.findById(user._id).populate('bookedEvents');
+        console.log(userWithBookings.bookedEvents)
         
         res.status(200).json(userWithBookings.bookedEvents);
     } catch (error) {
@@ -97,8 +99,8 @@ const requestOtp = async (req, res) => {
     }
 };
 const cancelBooking = async (req, res) => {
-    const { eventId } = req.params; // Extract the event ID from the request parameters
-    const user = req.user; // Get the authenticated user from the request
+    const { id: eventId } = req.params; 
+    const user = req.user; 
 
     try {
         const event = await Event.findById(eventId);
@@ -112,6 +114,7 @@ const cancelBooking = async (req, res) => {
         }
 
         user.bookedEvents.splice(eventIndex, 1);
+        console.log(user.bookedEvents)
         await user.save();
 
         event.availableTickets += 1;

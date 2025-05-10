@@ -19,7 +19,7 @@ router.get('/event/:id', getEventById)
 
 router.delete('/cancel/:id', cancelBooking )
 router.post('/book/:id', bookEvent)
-router.get('/my-bookings', getMyBookings)
+router.get('/myBookings', getMyBookings)
 
 
 
