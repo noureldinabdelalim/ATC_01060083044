@@ -1,6 +1,5 @@
 import React, {useRef} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toPng } from "html-to-image";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -38,27 +37,14 @@ const BookingConfirmation = () => {
     });
 };
 
-        const handleDownloadAsImage = () => {
-        if (confirmationRef.current) {
-            toPng(confirmationRef.current)
-                .then((dataUrl) => {
-                    const link = document.createElement("a");
-                    link.href = dataUrl;
-                    link.download = "BookingConfirmation.png";
-                    link.click();
-                })
-                .catch((error) => {
-                    console.error("Error generating image:", error);
-                });
-        }
-    };
+        
 
     return (
         <div className="container mt-5">
             <div className="card shadow-lg" ref={confirmationRef}>
                 <div className="card-header bg-primary text-white text-center">
                     <h2>Booking Confirmation</h2>
-                    <p>Thank you for booking with us, {user.name}!</p>
+                    <p>Congratulations! Thank you for booking with us, {user.name}!</p>
                 </div>
                 <div className="card-body">
                     <div className="row">
