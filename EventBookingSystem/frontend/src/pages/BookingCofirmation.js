@@ -1,9 +1,15 @@
-import React from "react";
+import React, {useRef} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toPng } from "html-to-image";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+
 
 const BookingConfirmation = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const confirmationRef = useRef(); // Reference to the confirmation content
+
 
     // Assuming the user's data and event details are passed via `location.state`
     const { user, event } = location.state || {};
@@ -19,10 +25,37 @@ const BookingConfirmation = () => {
             </div>
         );
     }
+    const handleDownloadAsPDF = () => {
+    const element = confirmationRef.current;
+    html2canvas(element, { useCORS: true })
+        .then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF("p", "mm", "a4");
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save("BookingConfirmation.pdf");
+    });
+};
+
+        const handleDownloadAsImage = () => {
+        if (confirmationRef.current) {
+            toPng(confirmationRef.current)
+                .then((dataUrl) => {
+                    const link = document.createElement("a");
+                    link.href = dataUrl;
+                    link.download = "BookingConfirmation.png";
+                    link.click();
+                })
+                .catch((error) => {
+                    console.error("Error generating image:", error);
+                });
+        }
+    };
 
     return (
         <div className="container mt-5">
-            <div className="card shadow-lg">
+            <div className="card shadow-lg" ref={confirmationRef}>
                 <div className="card-header bg-primary text-white text-center">
                     <h2>Booking Confirmation</h2>
                     <p>Thank you for booking with us, {user.name}!</p>
@@ -97,9 +130,12 @@ const BookingConfirmation = () => {
                     <button className="btn btn-success me-3" onClick={() => navigate("/")}>
                         Go to Home
                     </button>
-                    <button className="btn btn-secondary" onClick={() => navigate("/my-bookings")}>
+                    <button className="btn btn-secondary me-3" onClick={() => navigate("/my-bookings")}>
                         View My Bookings
                     </button>
+<button className="btn btn-info" onClick={handleDownloadAsPDF}>
+    Download as PDF
+</button>
                 </div>
             </div>
         </div>
