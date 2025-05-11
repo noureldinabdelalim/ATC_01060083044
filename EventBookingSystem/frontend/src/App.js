@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+import logo from "./logoTheBooker.png";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
@@ -10,11 +10,16 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import EditEvent from "./pages/EditEvent";
 import BookingConfirmation from "./pages/BookingCofirmation";
+import MyBookings from "./pages/MyBookings";
 import Otp from "./pages/Otp";
 function App() {
   const {user} = useAuthContext()
   return (
     <div className="App">
+      {/* <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>Welcome to TheBooker</p>
+        </header> */}
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -53,6 +58,7 @@ function App() {
               <>
                 {/* User Routes */}
                 <Route path="/" element={<Home />} />
+                <Route path="/my-bookings" element={<MyBookings />} />
                 <Route path="/booking-confirmation" element={<BookingConfirmation />} />
                 {/* <Route path="/user" element={<UserDashboard />} /> */}
                 {/* Add more user-specific routes here */}

@@ -2,6 +2,18 @@ const User = require('../models/User')
 const Event = require('../models/Event');
 
 
+const getMyUser = async (req, res) => {
+    const user = req.user; // Assuming you have middleware to set req.user
+    try {
+        const userDetails = await User.findById(user._id)
+        res.status(200).json(userDetails._id, userDetails.name, userDetails.email, userDetails.phone, userDetails.address, userDetails.dob, userDetails.nationalId);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to fetch user details' });
+    }
+}
+
 
 const bookEvent = async (req, res) => {
     const { id: eventId } = req.params; 
@@ -132,4 +144,4 @@ const cancelBooking = async (req, res) => {
 
 
 
-module.exports = {bookEvent, getMyBookings, cancelBooking}
+module.exports = {bookEvent, getMyBookings, cancelBooking, getMyUser}

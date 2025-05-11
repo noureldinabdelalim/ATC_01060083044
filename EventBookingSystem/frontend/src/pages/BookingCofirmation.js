@@ -12,6 +12,7 @@ const BookingConfirmation = () => {
 
     // Assuming the user's data and event details are passed via `location.state`
     const { user, event } = location.state || {};
+    
 
     if (!user || !event) {
         return (
@@ -61,6 +62,15 @@ const BookingConfirmation = () => {
                                 <li className="list-group-item">
                                     <strong>Phone:</strong> {user.phone || "N/A"}
                                 </li>
+                                <li className="list-group-item">
+                                    <strong>Date of Birth:</strong> {user.dob ? new Date(user.dob).toLocaleDateString("en-GB") : "N/A"}
+                                </li>
+                                <li className="list-group-item">
+                                    <strong>Address:</strong> {user.address || "N/A"}
+                                </li>
+                                <li className="list-group-item">
+                                    <strong>National ID:</strong> {user.nationalId || "N/A"}
+                                </li>
                             </ul>
                         </div>
 
@@ -82,6 +92,9 @@ const BookingConfirmation = () => {
                                 </li>
                                 <li className="list-group-item">
                                     <strong>Price:</strong> {event.price} EGP
+                                </li>
+                                 <li className="list-group-item">
+                                    <strong>Description:</strong> <br/>{event.description}
                                 </li>
                             </ul>
                         </div>

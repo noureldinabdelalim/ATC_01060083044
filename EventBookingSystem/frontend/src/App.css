@@ -104,3 +104,18 @@ button.view-details-btn:hover {
   background-color: #084298;
 }
 
+.App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.pages {
+    flex: 1;
+}
+
+
+footer {
+    text-align: center;
+    padding: 1rem;
+}
