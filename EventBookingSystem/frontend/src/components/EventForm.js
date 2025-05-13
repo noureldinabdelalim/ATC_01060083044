@@ -179,13 +179,25 @@ const EventForm = ({ fetchEvents }) => {
                     <div className="valid-feedback">Valid.</div>
                     <div className="invalid-feedback">Please fill out this field.</div>
                 </div>
-                <label>Tag:</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    value={tag}
-                    onChange={(e) => setTag(e.target.value)}
-                />
+                <label htmlFor="tag" className="form-label">Tag:</label>
+    <select
+        id="tag"
+        className="form-select"
+        value={tag}
+        onChange={(e) => setTag(e.target.value)}
+        required
+    >
+        <option value="">Select a Tag</option>
+        <option value="Sports">Sports</option>
+        <option value="Music">Music</option>
+        <option value="Gaming">Gaming</option>
+        <option value="Theatre">Theatre</option>
+        <option value="Opera">Opera</option>
+        <option value="Festival">Festival</option>
+        <option value="Ceremony">Ceremony</option>
+    </select>
+    <div className="invalid-feedback">Please select a tag.</div>
+
                 <label>Available Tickets:</label>
                 <input
                     type="number"

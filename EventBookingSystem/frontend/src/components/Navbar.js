@@ -29,6 +29,7 @@ const Navbar = () => {
       >
         <div className="container-fluid">
           <Link to="/" className="navbar-brand d-flex align-items-center">
+          
             <img
               src={logo}
               alt="The Booker Logo"
@@ -69,7 +70,7 @@ const Navbar = () => {
                   <>
                     <li className="nav-item">
                       <Link className="nav-link" to="/user-dashboard">
-                        User Dashboard
+                        Browse Events
                       </Link>
                     </li>
                     <li className="nav-item">
@@ -78,8 +79,8 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li className="nav-item">
-                      <Link className="nav-link" to="/events">
-                        Browse Events
+                      <Link className="nav-link" to="/my-profile">
+                        My Profile
                       </Link>
                     </li>
                   </>

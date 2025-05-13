@@ -158,6 +158,7 @@ const EventDetails = ({ event, fetchEvents }) => {
                             objectFit: "cover",
                             marginRight: "15px",
                         }}
+                        loading="lazy"
                     />
                 )}
                 {/* Event Details */}
@@ -247,6 +248,7 @@ const EventDetails = ({ event, fetchEvents }) => {
                                             alt={`Slide ${index + 1}`}
                                             className="d-block w-100"
                                             style={{ maxHeight: "400px", objectFit: "cover" }}
+                                            loading="lazy"
                                         />
                                     </div>
                                 ))}

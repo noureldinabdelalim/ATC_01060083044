@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import EditEvent from "./pages/EditEvent";
 import BookingConfirmation from "./pages/BookingCofirmation";
 import MyBookings from "./pages/MyBookings";
+import MyProfile from "./pages/MyProflie";
 import Otp from "./pages/Otp";
 function App() {
   const {user} = useAuthContext()
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/my-bookings" element={<MyBookings />} />
                 <Route path="/booking-confirmation" element={<BookingConfirmation />} />
+                <Route path="/my-profile" element={<MyProfile />} />
                 {/* <Route path="/user" element={<UserDashboard />} /> */}
                 {/* Add more user-specific routes here */}
               </>

@@ -14,6 +14,13 @@ const Home = () => {
     const [priceRange, setPriceRange] = useState([0, 100000]); // Default price range
     const [selectedDate, setSelectedDate] = useState(""); // Date filter
     const [ticketsRange, setTicketsRange] = useState([0, 100000]);
+    const [selectedTag, setSelectedTag] = useState("All Tags")
+
+    const [loading, setLoading] = useState(false);
+
+    const tags = ["All Tags", "Sports", "Music", "Gaming", "Theatre", "Opera", "Festival", "Ceremony"]; // Tags from EventForm
+
+
 
     const indexOfLastEvent = currentPage * eventsPerPage;
     const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
@@ -21,12 +28,20 @@ const Home = () => {
 const filteredEvents = events.filter((event) => {
         const withinPriceRange =
             event.price >= priceRange[0] && event.price <= priceRange[1];
-        const matchesDate = selectedDate ? event.date === selectedDate : true;
+        // const matchesDate = selectedDate ? event.date === selectedDate : true;
+        console.log("Selected Date:", selectedDate);
+console.log("Event Date (formatted):", new Date(event.date).toISOString().split("T")[0]);
+            const matchesDate = selectedDate
+        ? new Date(event.date).toISOString().split("T")[0] === selectedDate
+        : true;
         const withinTicketsRange =
             event.availableTickets >= ticketsRange[0] &&
             event.availableTickets <= ticketsRange[1];
+        const matchesTag =
+            selectedTag === "All Tags" || event.tag === selectedTag;
 
-        return withinPriceRange && matchesDate && withinTicketsRange;
+
+        return withinPriceRange && matchesDate && withinTicketsRange && matchesTag
     });
 
     const currentEvents = filteredEvents.slice(indexOfFirstEvent, indexOfLastEvent);
@@ -58,8 +73,42 @@ useEffect(() => {
 
 },[user])
 
+    const handleFilterChange = (callback) => {
+        setLoading(true); // Show spinner
+        setTimeout(() => {
+            callback(); // Apply the filter change
+            setLoading(false); // Hide spinner
+        }, 500); // Simulate a delay for the spinner
+    };
+
     return (
         <div className="Home d-flex" style={{ display: "flex" }}>
+
+            {loading && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)", // Fade background
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        zIndex: 1000,
+                    }}
+                >
+                    <div
+                        className="spinner-border text-light"
+                        role="status"
+                        style={{ width: "3rem", height: "3rem" }}
+                    >
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            )}
+
              <div
                 className="filter-section p-3"
                 style={{
@@ -100,7 +149,11 @@ useEffect(() => {
                         type="date"
                         className="form-control"
                         value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
+                        onChange={(e) => {
+                            console.log("Selected Date Input Value:", e.target.value);
+                            setSelectedDate(e.target.value)
+
+                            handleFilterChange(() => setSelectedDate(e.target.value))}}
                     />
                 </div>
 
@@ -111,20 +164,39 @@ useEffect(() => {
                     <input
                         type="range"
                         min="0"
-                        max="100000"
+                        max="10000"
                         value={ticketsRange[0]}
                         onChange={(e) => setTicketsRange([+e.target.value, ticketsRange[1]])}
                     />
                     <input
                         type="range"
                         min="0"
-                        max="100000"
+                        max="10000"
                         value={ticketsRange[1]}
                         onChange={(e) => setTicketsRange([ticketsRange[0], +e.target.value])}
                     />
                     <p>
                         {ticketsRange[0]} - {ticketsRange[1]} Tickets
                     </p>
+                </div>
+
+            <div className="mb-3">
+                    <label>Tags:</label>
+                    <br />
+                    <br />
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                        {tags.map((tag) => (
+                            <button
+                                key={tag}
+                                className={`btn ${
+                                    selectedTag === tag ? "btn-primary" : "btn-outline-primary"
+                                }`}
+                                onClick={() => handleFilterChange(() =>setSelectedTag(tag))}
+                            >
+                                {tag}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 

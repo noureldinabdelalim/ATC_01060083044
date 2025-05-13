@@ -6,13 +6,29 @@ const getMyUser = async (req, res) => {
     const user = req.user; // Assuming you have middleware to set req.user
     try {
         const userDetails = await User.findById(user._id)
-        res.status(200).json(userDetails._id, userDetails.name, userDetails.email, userDetails.phone, userDetails.address, userDetails.dob, userDetails.nationalId);
+        res.status(200).json({_id: userDetails._id, name: userDetails.name, email: userDetails.email, phone: userDetails.phone, address: userDetails.address, dob: userDetails.dob, nationalId: userDetails.nationalId});
     }
     catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to fetch user details' });
     }
 }
+
+const updateUser = async (req, res) => {
+    const user = req.user; 
+    const { name, email, phone, address, dob, nationalId } = req.body;
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+            user._id,
+            { name, email, phone, address, dob, nationalId },
+            { new: true } // Return the updated user
+        );
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to update user details', error });
+    }
+};
 
 
 const bookEvent = async (req, res) => {
@@ -88,7 +104,7 @@ const requestOtp = async (req, res) => {
 
         // Send OTP via email
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            service: 'Gmail',
             auth: {
                 user: process.env.EMAIL, // Your email
                 pass: process.env.EMAIL_PASSWORD // Your email password
@@ -102,7 +118,14 @@ const requestOtp = async (req, res) => {
             text: `Your OTP code is ${otp}. It will expire in 10 minutes.`
         };
 
-        await transporter.sendMail(mailOptions);
+        await transporter.sendMail(mailOptions, (error, info) => {
+		if (error) {
+			res.status(500);
+			throw new Error("Failed to Send OTP Email.")
+		} else {
+			res.status(200).json({ message: "OTP Sent, Please Check Your Email" })
+		}
+	})
 
         res.status(200).json({ message: 'OTP sent to your email' });
     } catch (error) {
@@ -144,4 +167,4 @@ const cancelBooking = async (req, res) => {
 
 
 
-module.exports = {bookEvent, getMyBookings, cancelBooking, getMyUser}
+module.exports = {bookEvent, getMyBookings, cancelBooking, getMyUser, updateUser, requestOtp}
