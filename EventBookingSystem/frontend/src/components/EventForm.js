@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useDarkMode } from "../context/DarkModeContext"; 
 
 const EventForm = ({ fetchEvents }) => {
     const { user } = useAuthContext();
@@ -16,9 +17,12 @@ const EventForm = ({ fetchEvents }) => {
     const [venue, setVenue] = useState("");
     const [price, setPrice] = useState(0);
     const [extraImages, setExtraImages] = useState([]);
+    const { isDarkMode } = useDarkMode()
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         if (!user) {
             setError("Log in first");
             return;
@@ -71,6 +75,7 @@ const EventForm = ({ fetchEvents }) => {
             extraImages: extraImageUrls,
         };
 
+        try{
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/event`, {
             method: "POST",
             headers: {
@@ -97,17 +102,33 @@ const EventForm = ({ fetchEvents }) => {
             fetchEvents();
             setError(null);
             setEmptyFields([]);
+            setIsLoading(false);
         } else {
             console.log("Error creating event:", json);
             setEmptyFields(json.emptyFields);
             setError(json.error);
+            setIsLoading(false);
         }
+    }
+    catch (err) {
+        console.error("Error:", err);
+        setError("An error occurred while creating the event.");
+        setIsLoading(false);
+    }
     };
 
     return (
-               <div style={{ width: "50%", margin: "0 auto", textAlign: "left" }}> {/* Adjust the width here */}
-            <form className="needs-validation" onSubmit={handleSubmit} noValidate>
-                <h2>Create a new event</h2>
+        
+               <div className={`${isDarkMode ? "bg-dark text-light" : ""}`} style={{ width: "50%", margin: "50px auto", textAlign: "left" }}> {/* Adjust the width here */}
+            <form className="needs-validation" style={{
+                    backgroundColor: isDarkMode ? "#333" : "#f0f0f0", // Dark mode background
+                    color: isDarkMode ? "#fff" : "#000", // Light grey background
+                    padding: "20px", // Add padding for spacing
+                    borderRadius: isDarkMode ? "8px" : "8px", // Rounded corners
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for better appearance
+                }}
+                onSubmit={handleSubmit} noValidate>
+                <h2 style={{ textAlign: "center" }}>Create a new event</h2>
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Event Title:</label>
                     <input
@@ -117,6 +138,10 @@ const EventForm = ({ fetchEvents }) => {
                         placeholder="Enter event title"
                         required
                         value={title}
+                        style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                     <div className="valid-feedback">Valid.</div>
@@ -131,6 +156,10 @@ const EventForm = ({ fetchEvents }) => {
                         id="date"
                         required
                         value={date}
+                        style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
                         onChange={(e) => setDate(e.target.value)}
                     />
                     <div className="valid-feedback">Valid.</div>
@@ -145,6 +174,10 @@ const EventForm = ({ fetchEvents }) => {
                         id="time"
                         required
                         value={time}
+                        style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
                         onChange={(e) => setTime(e.target.value)}
                     />
                     <div className="valid-feedback">Valid.</div>
@@ -159,6 +192,10 @@ const EventForm = ({ fetchEvents }) => {
                         id="location"
                         placeholder="Enter location"
                         required
+                        style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
                     />
@@ -173,6 +210,10 @@ const EventForm = ({ fetchEvents }) => {
                         id="description"
                         placeholder="Enter event description"
                         required
+                        style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
@@ -186,6 +227,10 @@ const EventForm = ({ fetchEvents }) => {
         value={tag}
         onChange={(e) => setTag(e.target.value)}
         required
+        style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
     >
         <option value="">Select a Tag</option>
         <option value="Sports">Sports</option>
@@ -205,6 +250,10 @@ const EventForm = ({ fetchEvents }) => {
                     required
                     min="0"
                     value={availableTickets}
+                    style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
                     onChange={(e) => setAvailableTickets(e.target.value)}
                 />
                 <label>Price:</label>
@@ -214,6 +263,10 @@ const EventForm = ({ fetchEvents }) => {
                     required
                     min="0"
                     value={price}
+                    style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
                     onChange={(e) => setPrice(e.target.value)}
                 />
                 <label>Venue:</label>
@@ -222,6 +275,10 @@ const EventForm = ({ fetchEvents }) => {
                     className={`form-control ${emptyFields.includes("venue") ? "error" : ""}`}
                     required
                     value={venue}
+                    style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
                     onChange={(e) => setVenue(e.target.value)}
                 />
                <div className="mb-3">
@@ -231,6 +288,11 @@ const EventForm = ({ fetchEvents }) => {
                     className="form-control"
                     id="eventImage"
                     accept="image/*"
+                    style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
+                    required
                     onChange={(e) => {
                         const file = e.target.files[0];
                         setEventImage(file);
@@ -252,6 +314,10 @@ const EventForm = ({ fetchEvents }) => {
                     className="form-control"
                     id="extraImages"
                     accept="image/*"
+                    style={{
+                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
+                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
+                        }}
                     multiple
                     onChange={(e) => {
                         const files = Array.from(e.target.files);
@@ -269,7 +335,7 @@ const EventForm = ({ fetchEvents }) => {
                     ))}
                 </div>
             </div>
-                <button className="btn btn-primary">Create Event</button>
+                <button className="btn btn-primary" disabled={isLoading} style={{margin: "10px auto", display: "block", width: "100%"}}>Create Event</button>
                 {error && <div className="error">{error}</div>}
             </form>
         </div>

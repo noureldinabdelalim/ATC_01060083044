@@ -12,6 +12,7 @@ import EditEvent from "./pages/EditEvent";
 import BookingConfirmation from "./pages/BookingCofirmation";
 import MyBookings from "./pages/MyBookings";
 import MyProfile from "./pages/MyProflie";
+import AddAdmin from "./pages/AddAdmin";
 import Otp from "./pages/Otp";
 function App() {
   const {user} = useAuthContext()
@@ -49,6 +50,7 @@ function App() {
                 {/* Admin Routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/create-event" element={<CreateEvent />} />
+                <Route path="/add-admin" element={<AddAdmin />} />
                 <Route path="/edit-event/:id" element={<EditEvent />} />
 
                 {/* Add more admin-specific routes here */}
