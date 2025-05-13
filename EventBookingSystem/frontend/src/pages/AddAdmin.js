@@ -16,6 +16,8 @@ const AddAdmin = () => {
     const { isDarkMode } = useDarkMode(); // Access dark mode state
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [success, setSuccess] = useState(false); // State to track success message
+
 
     const {user} = useAuthContext()
 
@@ -49,6 +51,7 @@ const AddAdmin = () => {
         }
         else{
             setIsLoading(false)
+            setSuccess(true)
             setEmail('')
             setName('')
             setPassword('')
@@ -56,6 +59,10 @@ const AddAdmin = () => {
             setDob('')
             setAddress('')
             setNationalId('')
+
+            setTimeout(() => {
+                setSuccess(false);
+            }, 5000);
         }
     }
        
@@ -73,6 +80,20 @@ const AddAdmin = () => {
                 }}>
             <div class="mb-3 mt-3">
             <h3 style={{ textAlign: "center" }}>Add Admin</h3>
+
+            {success && (
+                        <div className="alert alert-success" role="alert">
+                            Admin added successfully!
+                        </div>
+                    )}
+
+                    {/* Error Message */}
+                    {error && (
+                        <div className="alert alert-danger" role="alert">
+                            {error}
+                        </div>
+                    )}
+
             <label class="form-label">Name:</label>
             <input
                 type="text"

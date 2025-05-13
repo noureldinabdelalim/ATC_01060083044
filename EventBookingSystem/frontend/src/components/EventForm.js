@@ -19,6 +19,7 @@ const EventForm = ({ fetchEvents }) => {
     const [extraImages, setExtraImages] = useState([]);
     const { isDarkMode } = useDarkMode()
     const [isLoading, setIsLoading] = useState(false);
+    const [success, setSuccess] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -103,6 +104,12 @@ const EventForm = ({ fetchEvents }) => {
             setError(null);
             setEmptyFields([]);
             setIsLoading(false);
+            setSuccess(true);
+
+            setTimeout(() => {
+                setSuccess(false);
+            }
+            , 4000)
         } else {
             console.log("Error creating event:", json);
             setEmptyFields(json.emptyFields);
@@ -119,7 +126,31 @@ const EventForm = ({ fetchEvents }) => {
 
     return (
         
-               <div className={`${isDarkMode ? "bg-dark text-light" : ""}`} style={{ width: "50%", margin: "50px auto", textAlign: "left" }}> {/* Adjust the width here */}
+               <div className={`${isDarkMode ? "bg-dark text-light" : ""}`} style={{ width: "50%", margin: "50px auto", textAlign: "left" }}> 
+               {isLoading && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)", // Fade background
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        zIndex: 1000,
+                    }}
+                >
+                    <div
+                        className="spinner-border text-light"
+                        role="status"
+                        style={{ width: "3rem", height: "3rem" }}
+                    >
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            )}
             <form className="needs-validation" style={{
                     backgroundColor: isDarkMode ? "#333" : "#f0f0f0", // Dark mode background
                     color: isDarkMode ? "#fff" : "#000", // Light grey background
@@ -129,6 +160,16 @@ const EventForm = ({ fetchEvents }) => {
                 }}
                 onSubmit={handleSubmit} noValidate>
                 <h2 style={{ textAlign: "center" }}>Create a new event</h2>
+                {success && (
+                    <div className="alert alert-success" role="alert">
+                        Event created successfully!
+                    </div>
+                )}
+                {error && (
+                    <div className="alert alert-danger" role="alert">
+                        {error}
+                    </div>
+                )}
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Event Title:</label>
                     <input

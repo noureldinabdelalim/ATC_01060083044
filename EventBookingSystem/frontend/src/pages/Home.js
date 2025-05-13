@@ -17,6 +17,26 @@ const Home = () => {
     const [selectedTag, setSelectedTag] = useState("All Tags")
 
     const [loading, setLoading] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("")
+
+    const handleSuccessMessage = (message) => {
+        setSuccessMessage(message);
+
+        // Automatically hide the message after 5 seconds
+        setTimeout(() => {
+            setSuccessMessage("");
+        }, 5000);
+    };
+    const [successDeleteMessage, setSuccessDeleteMessage] = useState("")
+
+    const handleSuccessDeleteMessage = (message) => {
+        setSuccessDeleteMessage(message);
+
+        // Automatically hide the message after 5 seconds
+        setTimeout(() => {
+            setSuccessDeleteMessage("");
+        }, 5000);
+    };
 
     const tags = ["All Tags", "Sports", "Music", "Gaming", "Theatre", "Opera", "Festival", "Ceremony"]; // Tags from EventForm
 
@@ -82,7 +102,32 @@ useEffect(() => {
     };
 
     return (
+        <div>
+        {successMessage && (
+                <div className="alert alert-success" role="alert" style={{position: "fixed", // Make the alert fixed on the screen
+            top: "100px", // Position it at the top of the page
+            left: "50%", // Center it horizontally
+            transform: "translateX(-50%)", // Adjust for centering
+            zIndex: 1050, // Ensure it appears above other elements
+            width: "60%", // Set the width of the alert
+            textAlign: "center"}}>
+                    {successMessage}
+                </div>
+            )}
+            {successDeleteMessage && (
+                <div className="alert alert-warning" role="alert" style={{position: "fixed", // Make the alert fixed on the screen
+            top: "100px", // Position it at the top of the page
+            left: "50%", // Center it horizontally
+            transform: "translateX(-50%)", // Adjust for centering
+            zIndex: 1050, // Ensure it appears above other elements
+            width: "60%", // Set the width of the alert
+            textAlign: "center"}}>
+                    {successDeleteMessage}
+                </div>
+            )}
         <div className="Home d-flex" style={{ display: "flex" }}>
+
+            
 
             {loading && (
                 <div
@@ -206,7 +251,7 @@ useEffect(() => {
                 <div className="events">
                     {currentEvents &&
                         currentEvents.map((event) => (
-                            <EventDetails key={event._id} event={event} fetchEvents={fetchEvents} />
+                            <EventDetails onSuccessDelete={handleSuccessDeleteMessage} onSuccess={handleSuccessMessage} key={event._id} event={event} fetchEvents={fetchEvents} />
                         ))}
                 </div>
 
@@ -229,6 +274,7 @@ useEffect(() => {
                     </ul>
                 </nav>
             </div>
+        </div>
         </div>
     );
 };

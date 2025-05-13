@@ -4,7 +4,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useDarkMode } from "../context/DarkModeContext";
 
 
-const EventDetails = ({ event, fetchEvents }) => {
+const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
     const { user, bookings, dispatch } = useAuthContext();
     const [isExpanded, setIsExpanded] = useState(false);
     const hasBooked = bookings?.some((booking) => booking._id === event._id);
@@ -33,6 +33,7 @@ const EventDetails = ({ event, fetchEvents }) => {
         if (response.ok) {
             console.log("Booking successful:", json)
             fetchEvents()
+            onSuccess("Event booked successfully!");
             dispatch({ type: "SET_BOOKINGS", payload: [...bookings, event] })
                     navigate("/booking-confirmation", {
             state: {
@@ -75,6 +76,7 @@ const EventDetails = ({ event, fetchEvents }) => {
         if (response.ok) {
             console.log("Booking canceled:", json);
             fetchEvents(); 
+            onSuccessDelete("Booking Canceled successfully!");
             const updatedBookings = bookings.filter((booking) => booking._id !== event._id);
             dispatch({ type: "SET_BOOKINGS", payload: updatedBookings });        } else {
             console.log("Error canceling booking:", json.error);
@@ -96,6 +98,7 @@ const EventDetails = ({ event, fetchEvents }) => {
         if (response.ok) {
             console.log(json);
             fetchEvents();
+            onSuccessDelete("Event deleted successfully!");
         } else {
             console.log("Error deleting event");
         }
