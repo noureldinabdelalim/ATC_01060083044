@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const Event = require('../models/Event');
+// const nodemailer = require('nodemailer');
 
 
 const getMyUser = async (req, res) => {
@@ -121,7 +122,7 @@ const requestOtp = async (req, res) => {
         await transporter.sendMail(mailOptions, (error, info) => {
 		if (error) {
 			res.status(500);
-			throw new Error("Failed to Send OTP Email.")
+			throw new Error(error)
 		} else {
 			res.status(200).json({ message: "OTP Sent, Please Check Your Email" })
 		}
@@ -167,4 +168,4 @@ const cancelBooking = async (req, res) => {
 
 
 
-module.exports = {bookEvent, getMyBookings, cancelBooking, getMyUser, updateUser, requestOtp}
+module.exports = {bookEvent, getMyBookings, cancelBooking, getMyUser, updateUser}
