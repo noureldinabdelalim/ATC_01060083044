@@ -128,7 +128,7 @@ const EditEvent = () => {
     const json = await response.json();
     if (response.ok) {
       console.log("Event updated successfully:", json);
-      navigate("/"); // Redirect back to the home page or event list
+      navigate("/home"); // Redirect back to the home page or event list
     } else {
       setError(json.error || "Failed to update event.");
     }
@@ -170,9 +170,11 @@ const EditEvent = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             />
           </div>
 
@@ -188,9 +190,11 @@ const EditEvent = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             ></textarea>
           </div>
 
@@ -206,9 +210,11 @@ const EditEvent = () => {
               value={date}
               onChange={(e) => setDate(e.target.value)}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             />
           </div>
 
@@ -224,9 +230,11 @@ const EditEvent = () => {
               value={time}
               onChange={(e) => setTime(e.target.value)}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             />
           </div>
 
@@ -243,9 +251,11 @@ const EditEvent = () => {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             />
           </div>
 
@@ -262,9 +272,11 @@ const EditEvent = () => {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             />
           </div>
 
@@ -281,9 +293,11 @@ const EditEvent = () => {
               value={venue}
               onChange={(e) => setVenue(e.target.value)}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             />
           </div>
 
@@ -300,9 +314,11 @@ const EditEvent = () => {
               value={tag}
               onChange={(e) => setTag(e.target.value)}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             />
           </div>
 
@@ -319,9 +335,11 @@ const EditEvent = () => {
               value={totalTickets}
               onChange={(e) => setTotalTickets(e.target.value)}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             />
           </div>
 
@@ -339,9 +357,11 @@ const EditEvent = () => {
                 setEventImage(file);
               }}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             />
             {/* Preview existing or uploaded event image */}
             {eventImage && (
@@ -372,9 +392,11 @@ const EditEvent = () => {
                 setExtraImages((prevImages) => [...prevImages, ...files]);
               }}
               style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
             />
             {/* Preview existing and uploaded extra images */}
             <div

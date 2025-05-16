@@ -19,7 +19,7 @@ const BookingConfirmation = () => {
             <div className="container text-center mt-5">
                 <h2>Invalid Booking</h2>
                 <p>It seems like there was an issue with your booking. Please try again.</p>
-                <button className="btn btn-primary" onClick={() => navigate("/")}>
+                <button className="btn btn-primary" onClick={() => navigate("/home")}>
                     Go Back to Home
                 </button>
             </div>
@@ -126,7 +126,7 @@ const BookingConfirmation = () => {
                     </div>
                 </div>
                 <div className="card-footer text-center">
-                    <button className="btn btn-success me-3" onClick={() => navigate("/")}>
+                    <button className="btn btn-success me-3" onClick={() => navigate("/home")}>
                         Go to Home
                     </button>
                     <button className="btn btn-secondary me-3" onClick={() => navigate("/my-bookings")}>

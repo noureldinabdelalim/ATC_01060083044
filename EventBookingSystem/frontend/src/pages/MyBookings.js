@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const MyBookings = () => {
     const [bookings, setBookings] = useState([]);
@@ -8,6 +9,7 @@ const MyBookings = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const {user} = useAuthContext()
+    const {isDarkMode} = useDarkMode()
     
 
 useEffect(() => {
@@ -49,7 +51,7 @@ useEffect(() => {
             <div className="container text-center mt-5">
                 <h2>Error</h2>
                 <p>{error}</p>
-                <button className="btn btn-primary" onClick={() => navigate("/")}>
+                <button className="btn btn-primary" onClick={() => navigate("/home")}>
                     Go Back to Home
                 </button>
             </div>
@@ -61,7 +63,7 @@ useEffect(() => {
             <div className="container text-center mt-5">
                 <h2>No Bookings Found</h2>
                 <p>You haven't booked any events yet. Start exploring and book your first event!</p>
-                <button className="btn btn-primary" onClick={() => navigate("/")}>
+                <button className="btn btn-primary" onClick={() => navigate("/home")}>
                     Explore Events
                 </button>
             </div>
@@ -69,7 +71,7 @@ useEffect(() => {
     }
 
     return (
-        <div className="container mt-5">
+        <div className="container mt-5" >
             <h2 className="text-center mb-4">My Bookings</h2>
             <div className="row">
                 {bookings.map((booking, index) => (
@@ -81,7 +83,7 @@ useEffect(() => {
                                 alt={booking.title}
                                 style={{ height: "200px", objectFit: "cover" }}
                             />
-                            <div className="card-body">
+                            <div className={`card-body ${isDarkMode ? "bg-dark text-light" : ""}`}>
                                 <h5 className="card-title">
     {booking.title.length > 8 ? `${booking.title.substring(0, 8)}...` : booking.title}
 </h5>

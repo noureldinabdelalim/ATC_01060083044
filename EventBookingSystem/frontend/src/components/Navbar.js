@@ -17,9 +17,7 @@ const Navbar = () => {
   return (
     <header>
       {/* <div className="container"> */}
-      {/* <Link to="/">
-                    <h1>Event System</h1>
-                </Link> */}
+
 
       <nav
         className={`navbar navbar-expand-sm ${
@@ -28,7 +26,7 @@ const Navbar = () => {
         style={{ width: "100%", margin: "0 auto" }}
       >
         <div className="container-fluid">
-          <Link to="/" className="navbar-brand d-flex align-items-center">
+          <Link to="/home" className="navbar-brand d-flex align-items-center">
           
             <img
               src={logo}

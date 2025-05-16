@@ -46,9 +46,11 @@ const Login = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         value={email}
                         style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                     />
                     <label className="form-label">Password:</label>
                     <input
@@ -57,9 +59,11 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         value={password}
                         style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                     />
                     <button
                         type="submit"

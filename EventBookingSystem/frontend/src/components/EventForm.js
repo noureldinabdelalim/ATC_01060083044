@@ -152,12 +152,16 @@ const EventForm = ({ fetchEvents }) => {
                 </div>
             )}
             <form className="needs-validation" style={{
-                    backgroundColor: isDarkMode ? "#333" : "#f0f0f0", // Dark mode background
-                    color: isDarkMode ? "#fff" : "#000", // Light grey background
-                    padding: "20px", // Add padding for spacing
-                    borderRadius: isDarkMode ? "8px" : "8px", // Rounded corners
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for better appearance
-                }}
+  background: "var(--surface-bg)",
+  color: "var(--text-main)",
+  borderRadius: "12px",
+  boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
+  border: "1px solid var(--surface-border)",
+  padding: "32px",
+  width: "100%",
+  maxWidth: "480px",
+  margin: "40px auto",
+}}
                 onSubmit={handleSubmit} noValidate>
                 <h2 style={{ textAlign: "center" }}>Create a new event</h2>
                 {success && (
@@ -180,9 +184,11 @@ const EventForm = ({ fetchEvents }) => {
                         required
                         value={title}
                         style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                     <div className="valid-feedback">Valid.</div>
@@ -198,9 +204,11 @@ const EventForm = ({ fetchEvents }) => {
                         required
                         value={date}
                         style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                         onChange={(e) => setDate(e.target.value)}
                     />
                     <div className="valid-feedback">Valid.</div>
@@ -216,9 +224,11 @@ const EventForm = ({ fetchEvents }) => {
                         required
                         value={time}
                         style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                         onChange={(e) => setTime(e.target.value)}
                     />
                     <div className="valid-feedback">Valid.</div>
@@ -234,9 +244,11 @@ const EventForm = ({ fetchEvents }) => {
                         placeholder="Enter location"
                         required
                         style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
                     />
@@ -252,9 +264,11 @@ const EventForm = ({ fetchEvents }) => {
                         placeholder="Enter event description"
                         required
                         style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
@@ -269,9 +283,11 @@ const EventForm = ({ fetchEvents }) => {
         onChange={(e) => setTag(e.target.value)}
         required
         style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
     >
         <option value="">Select a Tag</option>
         <option value="Sports">Sports</option>
@@ -292,9 +308,11 @@ const EventForm = ({ fetchEvents }) => {
                     min="0"
                     value={availableTickets}
                     style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                     onChange={(e) => setAvailableTickets(e.target.value)}
                 />
                 <label>Price:</label>
@@ -305,9 +323,11 @@ const EventForm = ({ fetchEvents }) => {
                     min="0"
                     value={price}
                     style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                     onChange={(e) => setPrice(e.target.value)}
                 />
                 <label>Venue:</label>
@@ -317,9 +337,11 @@ const EventForm = ({ fetchEvents }) => {
                     required
                     value={venue}
                     style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                     onChange={(e) => setVenue(e.target.value)}
                 />
                <div className="mb-3">
@@ -330,9 +352,11 @@ const EventForm = ({ fetchEvents }) => {
                     id="eventImage"
                     accept="image/*"
                     style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                     required
                     onChange={(e) => {
                         const file = e.target.files[0];
@@ -356,9 +380,11 @@ const EventForm = ({ fetchEvents }) => {
                     id="extraImages"
                     accept="image/*"
                     style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                     multiple
                     onChange={(e) => {
                         const files = Array.from(e.target.files);

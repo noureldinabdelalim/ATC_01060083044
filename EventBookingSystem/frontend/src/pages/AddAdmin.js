@@ -103,9 +103,11 @@ const AddAdmin = () => {
                 onChange={(e) => setName(e.target.value)}
                 value={name}  
                 style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                 />
             <label class="form-label">Email:</label>
             <input
@@ -116,9 +118,11 @@ const AddAdmin = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}  
                 style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                 />
             <label class="form-label">Password:</label>
             <input
@@ -128,9 +132,11 @@ const AddAdmin = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}  
                 style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                 />
             
             <label class="form-label">Phone:</label>
@@ -142,9 +148,11 @@ const AddAdmin = () => {
                 onChange={(e) => setPhone(e.target.value)}
                 value={phone}  
                 style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                 />
             <label class="form-label">Date of Birth:</label>
             <input
@@ -154,9 +162,11 @@ const AddAdmin = () => {
                 onChange={(e) => setDob(e.target.value)}
                 value={dob}  
                 style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                 />
             <label class="form-label">Address:</label>
             <input
@@ -167,9 +177,11 @@ const AddAdmin = () => {
                 onChange={(e) => setAddress(e.target.value)}
                 value={address}  
                 style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                 />
             <label class="form-label">National ID:</label>
             <input
@@ -180,9 +192,11 @@ const AddAdmin = () => {
                 onChange={(e) => setNationalId(e.target.value)}
                 value={nationalId}  
                 style={{
-                            backgroundColor: isDarkMode ? "#555" : "#fff", // Input background for dark mode
-                            color: isDarkMode ? "#fff" : "#000", // Input text color for dark mode
-                        }}
+  background: "var(--main-bg)",
+  color: "var(--text-main)",
+  border: "1px solid var(--surface-border)",
+  borderRadius: "8px",
+}}
                 />
             
             <button disabled = {isLoading} type="submit" class="btn btn-primary" style={{margin: "10px auto", display: "block", width: "100%"}}>Add Admin</button>

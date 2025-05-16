@@ -131,7 +131,9 @@ const Home = () => {
 
   return (
     <div>
-      {loading && (
+      <h1 className="events-title">Events</h1>
+
+      {/* {loading && (
         <div
           style={{
             position: "fixed",
@@ -150,7 +152,7 @@ const Home = () => {
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
-      )}
+      )} */}
       {successMessage && (
         <div
           className="alert alert-success"
@@ -211,16 +213,24 @@ const Home = () => {
           </div>
         )}
 
+        
+
         <div
           className="filter-section p-3"
           style={{
             width: "25%",
+            borderRadius: "18px",
             borderRight: "2px solid #ccc",
-            borderTop: "thin solid #ccc",
+            borderBottom: "2px solid #ccc",
+            borderLeft: "2px solid #ccc",
+            borderTop: "2px solid #ccc",
             height: "100%", // Make it full height
             overflowY: "auto", // Add scroll if content overflows
-            backgroundColor: isDarkMode ? "#222" : "#e6f0fa",
+            backgroundColor: (isDarkMode
+      ? "var(--events-bg-dark)"
+      : "#e6f0fa"),
             color: isDarkMode ? "#fff" : "#000",
+            marginLeft: "20px",
           }}
         >
             <h4>Sort By</h4>
@@ -336,9 +346,7 @@ const Home = () => {
               ))}
             </div>
           </div>
-          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-          <br /><br /><br /><br /><br /><br /><br /><br /><br />
+          <br /><br />
           
 
         </div>
@@ -349,7 +357,6 @@ const Home = () => {
       ? "var(--events-bg-dark)"
       : "var(--events-bg-light)",
         }}>
-          <h1>Events</h1>
           <div className="events">
             {currentEvents &&
               currentEvents.map((event) => (
@@ -363,6 +370,8 @@ const Home = () => {
               ))}
           </div>
 
+        </div>
+      </div>
           {/* Pagination */}
           <nav>
             <ul className="pagination justify-content-center">
@@ -386,8 +395,6 @@ const Home = () => {
               )}
             </ul>
           </nav>
-        </div>
-      </div>
     </div>
   );
 };

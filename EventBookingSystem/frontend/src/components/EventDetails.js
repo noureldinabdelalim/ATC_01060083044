@@ -107,7 +107,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
     return (
         <div className={`event-details card ${isDarkMode ? "bg-dark text-light" : ""}`} style={{ cursor: "default" }}>
             <div
-                className="btn-group-vertical"
+                className="btn-group-vertical gap-1"
                 style={{
                     position: "absolute",
                     top: "10px", 

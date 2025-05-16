@@ -13,7 +13,9 @@ import BookingConfirmation from "./pages/BookingCofirmation";
 import MyBookings from "./pages/MyBookings";
 import MyProfile from "./pages/MyProflie";
 import AddAdmin from "./pages/AddAdmin";
+import AppNavBar from "./components/AppNavBar";
 import Otp from "./pages/Otp";
+import LandingPage from "./pages/LandingPage";
 function App() {
   const {user} = useAuthContext()
   return (
@@ -37,18 +39,19 @@ function App() {
         </a>
       </header> */}
       <BrowserRouter>
-        <Navbar />
+        <AppNavBar />
         <div className="pages">
           <Routes>
             {/* Public Routes */}
-            <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
-            <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={!user ? <Login /> : <Navigate to="/home" />} />
+            <Route path="/register" element={!user ? <Register /> : <Navigate to="/home" />} />
 
             {/* Protected Routes */}
             {user && user.role === "admin" && (
               <>
                 {/* Admin Routes */}
-                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/create-event" element={<CreateEvent />} />
                 <Route path="/add-admin" element={<AddAdmin />} />
                 <Route path="/edit-event/:id" element={<EditEvent />} />
@@ -60,7 +63,7 @@ function App() {
             {user && user.role === "user" && (
               <>
                 {/* User Routes */}
-                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/my-bookings" element={<MyBookings />} />
                 <Route path="/booking-confirmation" element={<BookingConfirmation />} />
                 <Route path="/my-profile" element={<MyProfile />} />
