@@ -3,6 +3,8 @@ import EventDetails from "../components/EventDetails";
 import EventForm from "../components/EventForm";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useDarkMode } from "../context/DarkModeContext";
+import { Alert, Slide } from "@mui/material";
+
 const URL = process.env.REACT_APP_BACKEND_URL;
 const Home = () => {
   const { user } = useAuthContext();
@@ -131,7 +133,6 @@ const Home = () => {
 
   return (
     <div>
-      <h1 className="events-title">Events</h1>
 
       {/* {loading && (
         <div
@@ -154,39 +155,47 @@ const Home = () => {
         </div>
       )} */}
       {successMessage && (
-        <div
-          className="alert alert-success"
-          role="alert"
-          style={{
-            position: "fixed", // Make the alert fixed on the screen
-            top: "100px", // Position it at the top of the page
-            left: "50%", // Center it horizontally
-            transform: "translateX(-50%)", // Adjust for centering
-            zIndex: 1050, // Ensure it appears above other elements
-            width: "60%", // Set the width of the alert
-            textAlign: "center",
-          }}
-        >
-          {successMessage}
-        </div>
-      )}
-      {successDeleteMessage && (
-        <div
-          className="alert alert-warning"
-          role="alert"
-          style={{
-            position: "fixed", // Make the alert fixed on the screen
-            top: "100px", // Position it at the top of the page
-            left: "50%", // Center it horizontally
-            transform: "translateX(-50%)", // Adjust for centering
-            zIndex: 1050, // Ensure it appears above other elements
-            width: "60%", // Set the width of the alert
-            textAlign: "center",
-          }}
-        >
-          {successDeleteMessage}
-        </div>
-      )}
+  <Slide direction="down" in={!!successMessage} mountOnEnter unmountOnExit>
+    <Alert
+      severity="success"
+      variant="filled"
+      sx={{
+        position: "fixed",
+        top: 100,
+        right: 32,
+        // transform: "translateX(-50%)",
+        zIndex: 2000,
+        width: { xs: "90%", sm: "35%", md: "28%" },
+        textAlign: "center",
+        fontSize: "1.1rem",
+        fontWeight: 500,
+      }}
+    >
+      {successMessage}
+    </Alert>
+  </Slide>
+)}
+{successDeleteMessage && (
+  <Slide direction="down" in={!!successDeleteMessage} mountOnEnter unmountOnExit>
+    <Alert
+      severity="warning"
+      variant="filled"
+      sx={{
+        position: "fixed",
+        top: 100,
+        right: 32,
+        // transform: "translateX(-50%)",
+        zIndex: 2000,
+        width: { xs: "90%", sm: "35%", md: "28%" },
+        textAlign: "center",
+        fontSize: "1.1rem",
+        fontWeight: 500,
+      }}
+    >
+      {successDeleteMessage}
+    </Alert>
+  </Slide>
+)}
       <div className="Home d-flex" style={{ display: "flex", height: "100%" }}>
         {loading && (
           <div
@@ -357,6 +366,8 @@ const Home = () => {
       ? "var(--events-bg-dark)"
       : "var(--events-bg-light)",
         }}>
+                <h1 className="events-title">Events</h1>
+
           <div className="events">
             {currentEvents &&
               currentEvents.map((event) => (

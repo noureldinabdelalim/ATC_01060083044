@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useDarkMode } from "../context/DarkModeContext";
+import { Button, Stack } from "@mui/material";
+
 
 
 const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
@@ -106,49 +108,99 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
 
     return (
         <div className={`event-details card ${isDarkMode ? "bg-dark text-light" : ""}`} style={{ cursor: "default" }}>
-            <div
-                className="btn-group-vertical gap-1"
-                style={{
-                    position: "absolute",
-                    top: "10px", 
-                    right: "10px", 
-                    zIndex: 1, 
-                }}
-            >
-                <button
-                    type="button"
-                    className="btn btn-success"
-                    onClick={() => setIsExpanded((prev) => !prev)}
-                >
-                    {isExpanded ? "Hide Details" : "View Details"}
-                </button>
-                {isAdmin && (
-                    <>
-                        <button className="btn btn-secondary" onClick={handleEditEvent}>Edit</button>
-                        <button className="btn btn-danger" onClick={handleDeleteEvent}>
-                            Delete
-                        </button>
-                    </>
-                )}
-                {!isAdmin && (
-                    <>
-                        <button
-                            className="btn btn-success"
-                            onClick={handleBookNow}
-                            disabled={hasBooked || isSoldOut}
-                        >
-                            {isSoldOut ? "Sold Out" : hasBooked ? "Already Booked" : "Book Now"}
-                        </button>
-                        <button
-                            className="btn btn-warning"
-                            onClick={handleCancelBooking}
-                            disabled={!hasBooked}
-                        >
-                            {hasBooked ? "Cancel Booking" : "Not Booked"}
-                        </button>
-                    </>
-                )}
-            </div>
+             <Stack
+      direction="column"
+      spacing={1}
+      sx={{
+        position: "absolute",
+        top: "10px",
+        right: "10px",
+        zIndex: 1,
+        minWidth: 170,
+      }}
+    >
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setIsExpanded((prev) => !prev)}
+        sx={{ fontWeight: 600 }}
+      >
+        {isExpanded ? "Hide Details" : "View Details"}
+      </Button>
+      {isAdmin && (
+        <>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleEditEvent}
+            sx={{ fontWeight: 600 }}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleDeleteEvent}
+            sx={{ fontWeight: 600 }}
+          >
+            Delete
+          </Button>
+        </>
+      )}
+      {!isAdmin && (
+        <>
+          <Button
+  variant={hasBooked || isSoldOut ? "contained" : "outlined"}
+  color="primary"
+  onClick={handleBookNow}
+  disabled={hasBooked || isSoldOut}
+  sx={{
+    fontWeight: 600,
+    boxShadow: "0 4px 12px 0 rgba(30, 136, 229, 0.15), 0 1.5px 4px 0 rgba(0,0,0,0.10)",
+    transition: "box-shadow 0.2s, transform 0.1s",
+
+    '&:active': {
+      boxShadow: "0 2px 4px 0 rgba(30, 136, 229, 0.10), 0 1px 2px 0 rgba(0,0,0,0.08)",
+      transform: "translateY(1px) scale(0.98)",
+    },
+    '&.Mui-disabled': {
+      backgroundColor: isDarkMode ? "#444b5a" : "#e0e0e0",
+      color: isDarkMode ? "#bfc8e2" : "#757575",
+      opacity: 1,
+      border: "1px solid #888",
+    },
+  }}
+>
+  {isSoldOut ? "Sold Out" : hasBooked ? "Already Booked" : "Book Now"}
+</Button>
+<Button
+  variant={hasBooked ? "contained" : "outlined"}
+  color="warning"
+  onClick={handleCancelBooking}
+  disabled={!hasBooked}
+  sx={{
+    fontWeight: 600,
+    boxShadow: "0 4px 12px 0 rgba(255, 152, 0, 0.15), 0 1.5px 4px 0 rgba(0,0,0,0.10)",
+    transition: "box-shadow 0.2s, transform 0.1s",
+
+    '&:active': {
+      boxShadow: "0 2px 4px 0 rgba(255, 152, 0, 0.10), 0 1px 2px 0 rgba(0,0,0,0.08)",
+      transform: "translateY(1px) scale(0.98)",
+    },
+    '&.Mui-disabled': {
+      backgroundColor: isDarkMode ? "#444b5a" : "#e0e0e0",
+      color: isDarkMode ? "#bfc8e2" : "#757575",
+      opacity: 1,
+      border: "1px solid #888",
+    },
+  }}
+>
+  {hasBooked ? "Cancel Booking" : "Not Booked"}
+</Button>
+        </>
+      )}
+    </Stack>
+
             <div className="card-body d-flex">
                 {/* Event Image */}
                 {event.eventImage && (

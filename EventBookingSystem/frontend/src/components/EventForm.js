@@ -1,6 +1,21 @@
 import { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useDarkMode } from "../context/DarkModeContext"; 
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Select,
+  MenuItem,
+  Button,
+  Alert,
+  InputLabel,
+  FormControl,
+  Box,
+  CircularProgress,
+  Chip,
+} from "@mui/material";
 
 const EventForm = ({ fetchEvents }) => {
     const { user } = useAuthContext();
@@ -124,289 +139,319 @@ const EventForm = ({ fetchEvents }) => {
     }
     };
 
+    const tagOptions = [
+  "Sports",
+  "Music",
+  "Gaming",
+  "Theatre",
+  "Opera",
+  "Festival",
+  "Ceremony",
+];
+
     return (
-        
-               <div className={`${isDarkMode ? "bg-dark text-light" : ""}`} style={{ width: "50%", margin: "50px auto", textAlign: "left" }}> 
-               {isLoading && (
-                <div
-                    style={{
-                        position: "fixed",
-                        top: 0,
-                        left: 0,
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: "rgba(0, 0, 0, 0.5)", // Fade background
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        zIndex: 1000,
-                    }}
-                >
-                    <div
-                        className="spinner-border text-light"
-                        role="status"
-                        style={{ width: "3rem", height: "3rem" }}
-                    >
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                </div>
+    <Container maxWidth="md" sx={{ mt: 8, mb: 8 }}>
+      <Paper
+        elevation={4}
+        sx={{
+          p: 4,
+          borderRadius: 4,
+          background: "var(--surface-bg)",
+          color: isDarkMode ? "#fff" : "var(--text-main)",
+          position: "relative",
+        }}
+      >
+        <Typography
+          variant="h5"
+          align="center"
+          sx={{
+            mb: 3,
+            color: "var(--primary)",
+            fontWeight: 800,
+            letterSpacing: 1,
+          }}
+        >
+          Create A New Event
+        </Typography>
+
+        {isLoading && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              bgcolor: "rgba(0,0,0,0.3)",
+              zIndex: 10,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 4,
+            }}
+          >
+            <CircularProgress color="primary" />
+          </Box>
+        )}
+
+        {success && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            Event created successfully!
+          </Alert>
+        )}
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        <form onSubmit={handleSubmit} autoComplete="off">
+          <TextField
+            label="Event Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            error={emptyFields.includes("title")}
+            sx={{ input: { color: isDarkMode ? "#fff" : "var(--text-main)" } ,
+    label: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+  InputLabelProps={{
+    style: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+/>
+
+          <TextField
+            label="Date"
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+            error={emptyFields.includes("date")}
+            sx={{ input: { color: isDarkMode ? "#fff" : "var(--text-main)" } ,
+    label: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+
+/>
+
+          <TextField
+            label="Time"
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+            error={emptyFields.includes("time")}
+            sx={{ input: { color: isDarkMode ? "#fff" : "var(--text-main)" } ,
+    label: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}/>
+
+          <TextField
+            label="Location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            error={emptyFields.includes("location")}
+            sx={{ input: { color: isDarkMode ? "#fff" : "var(--text-main)" } ,
+    label: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+  InputLabelProps={{
+    style: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+/>
+
+          <TextField
+            label="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            multiline
+            rows={3}
+            error={emptyFields.includes("description")}
+            sx={{ textarea: { color: isDarkMode ? "#fff" : "var(--text-main)" } ,
+    label: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+  InputLabelProps={{
+    style: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+/>
+
+          <FormControl fullWidth required margin="normal">
+            <InputLabel id="tag-label"
+            sx={{ color: isDarkMode ? "#fff" : "var(--text-main)" }}>Tag</InputLabel>
+            <Select
+              labelId="tag-label"
+              value={tag}
+              label="Tag"
+              onChange={(e) => setTag(e.target.value)}
+              error={emptyFields.includes("tag")}
+              sx={{
+                color: isDarkMode ? "#fff" : "var(--text-main)",
+                label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+
+
+                ".MuiSelect-icon": { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              }}
+            >
+              <MenuItem value="">
+                <em>Select a Tag</em>
+              </MenuItem>
+              {tagOptions.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <TextField
+            label="Available Tickets"
+            type="number"
+            value={availableTickets}
+            onChange={(e) => setAvailableTickets(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            error={emptyFields.includes("availableTickets")}
+            sx={{ input: { color: isDarkMode ? "#fff" : "var(--text-main)" } ,
+    label: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+  InputLabelProps={{
+    style: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+/>
+
+          <TextField
+            label="Price"
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            error={emptyFields.includes("price")}
+            sx={{ input: { color: isDarkMode ? "#fff" : "var(--text-main)" } ,
+    label: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+  InputLabelProps={{
+    style: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+/>
+
+          <TextField
+            label="Venue"
+            value={venue}
+            onChange={(e) => setVenue(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            error={emptyFields.includes("venue")}
+            sx={{ input: { color: isDarkMode ? "#fff" : "var(--text-main)" } ,
+    label: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+  InputLabelProps={{
+    style: { color: isDarkMode ? "#fff" : "var(--text-main)" }
+  }}
+/>
+
+          <Box sx={{ mt: 2 }}>
+            <Button
+              variant="contained"
+              component="label"
+              fullWidth
+              sx={{ mb: 1, borderRadius: 2, fontWeight: 600 }}
+            >
+              Upload Event Image
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEventImage(file);
+                }}
+              />
+            </Button>
+            {eventImage && (
+              <Box sx={{ mt: 1, mb: 2, textAlign: "center" }}>
+                <img
+                  src={URL.createObjectURL(eventImage)}
+                  alt="Event Preview"
+                  style={{ width: "100px", height: "100px", borderRadius: 8 }}
+                />
+              </Box>
             )}
-            <form className="needs-validation" style={{
-  background: "var(--surface-bg)",
-  color: "var(--text-main)",
-  borderRadius: "12px",
-  boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
-  border: "1px solid var(--surface-border)",
-  padding: "32px",
-  width: "100%",
-  maxWidth: "480px",
-  margin: "40px auto",
-}}
-                onSubmit={handleSubmit} noValidate>
-                <h2 style={{ textAlign: "center" }}>Create a new event</h2>
-                {success && (
-                    <div className="alert alert-success" role="alert">
-                        Event created successfully!
-                    </div>
-                )}
-                {error && (
-                    <div className="alert alert-danger" role="alert">
-                        {error}
-                    </div>
-                )}
-                <div className="mb-3">
-                    <label htmlFor="title" className="form-label">Event Title:</label>
-                    <input
-                        type="text"
-                        className={`form-control ${emptyFields.includes("title") ? "is-invalid" : ""}`}
-                        id="title"
-                        placeholder="Enter event title"
-                        required
-                        value={title}
-                        style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                    <div className="valid-feedback">Valid.</div>
-                    <div className="invalid-feedback">Please fill out this field.</div>
-                </div>
+          </Box>
 
-                <div className="mb-3">
-                    <label htmlFor="date" className="form-label">Date:</label>
-                    <input
-                        type="date"
-                        className={`form-control ${emptyFields.includes("date") ? "is-invalid" : ""}`}
-                        id="date"
-                        required
-                        value={date}
-                        style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                        onChange={(e) => setDate(e.target.value)}
-                    />
-                    <div className="valid-feedback">Valid.</div>
-                    <div className="invalid-feedback">Please select a date.</div>
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="time" className="form-label">Time:</label>
-                    <input
-                        type="time"
-                        className={`form-control ${emptyFields.includes("time") ? "is-invalid" : ""}`}
-                        id="time"
-                        required
-                        value={time}
-                        style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                        onChange={(e) => setTime(e.target.value)}
-                    />
-                    <div className="valid-feedback">Valid.</div>
-                    <div className="invalid-feedback">Please select a time.</div>
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="location" className="form-label">Location:</label>
-                    <input
-                        type="text"
-                        className={`form-control ${emptyFields.includes("location") ? "is-invalid" : ""}`}
-                        id="location"
-                        placeholder="Enter location"
-                        required
-                        style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                        value={location}
-                        onChange={(e) => setLocation(e.target.value)}
-                    />
-                    <div className="valid-feedback">Valid.</div>
-                    <div className="invalid-feedback">Please fill out this field.</div>
-                </div>
-
-                <div className="mb-3">
-                    <label htmlFor="description" className="form-label">Description:</label>
-                    <textarea
-                        className={`form-control ${emptyFields.includes("description") ? "is-invalid" : ""}`}
-                        id="description"
-                        placeholder="Enter event description"
-                        required
-                        style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    ></textarea>
-                    <div className="valid-feedback">Valid.</div>
-                    <div className="invalid-feedback">Please fill out this field.</div>
-                </div>
-                <label htmlFor="tag" className="form-label">Tag:</label>
-    <select
-        id="tag"
-        className="form-select"
-        value={tag}
-        onChange={(e) => setTag(e.target.value)}
-        required
-        style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-    >
-        <option value="">Select a Tag</option>
-        <option value="Sports">Sports</option>
-        <option value="Music">Music</option>
-        <option value="Gaming">Gaming</option>
-        <option value="Theatre">Theatre</option>
-        <option value="Opera">Opera</option>
-        <option value="Festival">Festival</option>
-        <option value="Ceremony">Ceremony</option>
-    </select>
-    <div className="invalid-feedback">Please select a tag.</div>
-
-                <label>Available Tickets:</label>
-                <input
-                    type="number"
-                    className={`form-control ${emptyFields.includes("availableTickets") ? "error" : ""}`}
-                    required
-                    min="0"
-                    value={availableTickets}
-                    style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                    onChange={(e) => setAvailableTickets(e.target.value)}
-                />
-                <label>Price:</label>
-                <input
-                    type="number"
-                    className={`form-control ${emptyFields.includes("price") ? "error" : ""}`}
-                    required
-                    min="0"
-                    value={price}
-                    style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                    onChange={(e) => setPrice(e.target.value)}
-                />
-                <label>Venue:</label>
-                <input
-                    type="text"
-                    className={`form-control ${emptyFields.includes("venue") ? "error" : ""}`}
-                    required
-                    value={venue}
-                    style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                    onChange={(e) => setVenue(e.target.value)}
-                />
-               <div className="mb-3">
-                <label htmlFor="eventImage" className="form-label">Event Image:</label>
-                <input
-                    type="file"
-                    className="form-control"
-                    id="eventImage"
-                    accept="image/*"
-                    style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                    required
-                    onChange={(e) => {
-                        const file = e.target.files[0];
-                        setEventImage(file);
-                    }}
-                />
-                {eventImage && (
+          <Box sx={{ mt: 2 }}>
+            <Button
+              variant="outlined"
+              component="label"
+              fullWidth
+              sx={{ mb: 1, borderRadius: 2, fontWeight: 600 }}
+            >
+              Upload Extra Images
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                multiple
+                onChange={(e) => {
+                  const files = Array.from(e.target.files);
+                  setExtraImages((prevImages) => [...prevImages, ...files]);
+                }}
+              />
+            </Button>
+            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mt: 1 }}>
+              {extraImages.map((image, index) => (
+                <Chip
+                  key={index}
+                  label={`Extra ${index + 1}`}
+                  onDelete={() =>
+                    setExtraImages((prev) =>
+                      prev.filter((_, i) => i !== index)
+                    )
+                  }
+                  avatar={
                     <img
-                        src={URL.createObjectURL(eventImage)}
-                        alt="Event Preview"
-                        style={{ width: "100px", height: "100px", marginTop: "10px" }}
+                      src={URL.createObjectURL(image)}
+                      alt={`Extra ${index + 1}`}
+                      style={{ width: 32, height: 32, borderRadius: "50%" }}
                     />
-                )}
-            </div>
-
-            <div className="mb-3">
-                <label htmlFor="extraImages" className="form-label">Extra Images:</label>
-                <input
-                    type="file"
-                    className="form-control"
-                    id="extraImages"
-                    accept="image/*"
-                    style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                    multiple
-                    onChange={(e) => {
-                        const files = Array.from(e.target.files);
-                        setExtraImages((prevImages) => [...prevImages, ...files]);
-                    }}
+                  }
+                  sx={{
+                    background: isDarkMode ? "#222" : "#f0f0f0",
+                    color: isDarkMode ? "#fff" : "#222",
+                  }}
                 />
-                <div style={{ display: "flex", gap: "10px", marginTop: "10px", flexWrap: "wrap" }}>
-                    {extraImages.map((image, index) => (
-                        <img
-                            key={index}
-                            src={URL.createObjectURL(image)}
-                            alt={`Extra ${index + 1}`}
-                            style={{ width: "100px", height: "100px" }}
-                        />
-                    ))}
-                </div>
-            </div>
-                <button className="btn btn-primary" disabled={isLoading} style={{margin: "10px auto", display: "block", width: "100%"}}>Create Event</button>
-                {error && <div className="error">{error}</div>}
-            </form>
-        </div>
-    );
+              ))}
+            </Box>
+          </Box>
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={isLoading}
+            sx={{ mt: 3, borderRadius: 2, fontWeight: 600 }}
+          >
+            Create Event
+          </Button>
+        </form>
+      </Paper>
+    </Container>
+  );
 };
 
 export default EventForm;

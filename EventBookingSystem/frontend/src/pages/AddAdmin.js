@@ -1,6 +1,15 @@
 import {useState} from 'react'
 import { useDarkMode } from "../context/DarkModeContext"; // Import the dark mode context
 import { useAuthContext } from '../hooks/useAuthContext'
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Alert,
+  Box,
+} from "@mui/material";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -66,152 +75,166 @@ const AddAdmin = () => {
         }
     }
        
-    
-    return(
-                <div className={`${isDarkMode ? "bg-dark text-light" : ""}`}style={{ width: "50%", margin: "50px auto", textAlign: "left" }}>
+    return (
+    <Container maxWidth="md" sx={{ mt: 8, mb: 8 }}>
+      <Paper
+        elevation={4}
+        sx={{
+          p: 4,
+          borderRadius: 4,
+          background: "var(--surface-bg)",
+          color: isDarkMode ? "#fff" : "var(--text-main)",
+        }}
+      >
+        <Typography
+          variant="h5"
+          align="center"
+          sx={{
+            mb: 3,
+            color: "var(--primary)",
+            fontWeight: 800,
+            letterSpacing: 1,
+          }}
+        >
+          Add Admin
+        </Typography>
 
-        <form className="addAdmin" onSubmit={handleSubmit}
-        style={{
-                    backgroundColor: isDarkMode ? "#333" : "#f0f0f0", // Dark mode background
-                    color: isDarkMode ? "#fff" : "#000", // Light grey background
-                    padding: "20px", // Add padding for spacing
-                    borderRadius: isDarkMode ? "8px" : "8px", // Rounded corners
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for better appearance
-                }}>
-            <div class="mb-3 mt-3">
-            <h3 style={{ textAlign: "center" }}>Add Admin</h3>
+        {success && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            Admin added successfully!
+          </Alert>
+        )}
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
 
-            {success && (
-                        <div className="alert alert-success" role="alert">
-                            Admin added successfully!
-                        </div>
-                    )}
+        <Box component="form" onSubmit={handleSubmit} autoComplete="off">
+          <TextField
+            label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Date of Birth"
+            type="date"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            InputLabelProps={{
+              shrink: true,
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="National ID"
+            value={nationalId}
+            onChange={(e) => setNationalId(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
 
-                    {/* Error Message */}
-                    {error && (
-                        <div className="alert alert-danger" role="alert">
-                            {error}
-                        </div>
-                    )}
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={isLoading}
+            sx={{ mt: 3, borderRadius: 2, fontWeight: 600 }}
+          >
+            Add Admin
+          </Button>
+        </Box>
+      </Paper>
+    </Container>
+  );
+};
 
-            <label class="form-label">Name:</label>
-            <input
-                type="text"
-                placeholder="Enter new admin's name"
-                required
-                class="form-control"
-                onChange={(e) => setName(e.target.value)}
-                value={name}  
-                style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                />
-            <label class="form-label">Email:</label>
-            <input
-                type="email"
-                placeholder="Enter new admin's email"
-                required
-                class="form-control"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}  
-                style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                />
-            <label class="form-label">Password:</label>
-            <input
-                type="password"
-                required
-                class="form-control"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}  
-                style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                />
-            
-            <label class="form-label">Phone:</label>
-            <input
-                type="text"
-                placeholder='Enter phone number'
-                required
-                class="form-control"
-                onChange={(e) => setPhone(e.target.value)}
-                value={phone}  
-                style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                />
-            <label class="form-label">Date of Birth:</label>
-            <input
-                type="date"
-                class="form-control"
-                required
-                onChange={(e) => setDob(e.target.value)}
-                value={dob}  
-                style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                />
-            <label class="form-label">Address:</label>
-            <input
-                type="text"
-                class="form-control"
-                placeholder='Enter address'
-                required
-                onChange={(e) => setAddress(e.target.value)}
-                value={address}  
-                style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                />
-            <label class="form-label">National ID:</label>
-            <input
-                type="text"
-                class="form-control"
-                placeholder='Enter national ID'
-                required
-                onChange={(e) => setNationalId(e.target.value)}
-                value={nationalId}  
-                style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-                />
-            
-            <button disabled = {isLoading} type="submit" class="btn btn-primary" style={{margin: "10px auto", display: "block", width: "100%"}}>Add Admin</button>
-            {error && <div className="error">{error}</div>}
-            {isLoading && <div className="loading">Loading...</div>}
-
-            </div>
-        </form>
-        </div>
-
-    )
-    }
-
-
-
-
-
-export default AddAdmin
+export default AddAdmin;

@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Alert,
+  Box,
+} from "@mui/material";
 import { useDarkMode } from "../context/DarkModeContext"; // Import the custom hook for dark mode
 
 const EditEvent = () => {
@@ -21,6 +30,7 @@ const EditEvent = () => {
   const [extraImages, setExtraImages] = useState([]);
   const [error, setError] = useState(null);
   const { isDarkMode } = useDarkMode();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // Fetch the event details to pre-fill the form
@@ -57,6 +67,7 @@ const EditEvent = () => {
 
   const handleUpdateEvent = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const updatedEvent = {
       title,
@@ -127,6 +138,7 @@ const EditEvent = () => {
 
     const json = await response.json();
     if (response.ok) {
+      setIsLoading(false);
       console.log("Event updated successfully:", json);
       navigate("/home"); // Redirect back to the home page or event list
     } else {
@@ -135,278 +147,233 @@ const EditEvent = () => {
   };
 
   return (
-    <div
-      className={`${isDarkMode ? "bg-dark text-light" : ""}`}
-      style={{ width: "50%", margin: "50px auto", textAlign: "left" }}
-    >
-      <div
-        className="edit-event"
-        style={{ width: "100%", margin: "0 auto", textAlign: "left" }}
+    <Container maxWidth="md" sx={{ mt: 8, mb: 8 }}>
+      <Paper
+        elevation={4}
+        sx={{
+          p: 4,
+          borderRadius: 4,
+          background: "var(--surface-bg)",
+          color: isDarkMode ? "#fff" : "var(--text-main)",
+        }}
       >
-        <form
-          className="needs-validation"
-          onSubmit={handleUpdateEvent}
-          noValidate
-          style={{
-                    backgroundColor: isDarkMode ? "#333" : "#f0f0f0", // Dark mode background
-                    color: isDarkMode ? "#fff" : "#000", // Light grey background
-                    padding: "20px", // Add padding for spacing
-                    borderRadius: isDarkMode ? "8px" : "8px", // Rounded corners
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for better appearance
-                }}
+        <Typography
+          variant="h5"
+          align="center"
+          sx={{
+            mb: 3,
+            color: "var(--primary)",
+            fontWeight: 800,
+            letterSpacing: 1,
+          }}
         >
-          <h3 style={{ textAlign: "center" }}>Edit Event</h3>
+          Edit Event
+        </Typography>
 
-          <div className="mb-3">
-            <label htmlFor="title" className="form-label">
-              Event Title:
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="title"
-              placeholder="Enter event title"
-              required
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            />
-          </div>
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
 
-          <div className="mb-3">
-            <label htmlFor="description" className="form-label">
-              Description:
-            </label>
-            <textarea
-              className="form-control"
-              id="description"
-              placeholder="Enter event description"
-              required
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            ></textarea>
-          </div>
+        <Box component="form" onSubmit={handleUpdateEvent} autoComplete="off">
+          <TextField
+            label="Event Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            multiline
+            rows={3}
+            sx={{
+              textarea: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Date"
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            InputLabelProps={{
+              shrink: true,
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Time"
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            InputLabelProps={{
+              shrink: true,
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Price"
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Venue"
+            value={venue}
+            onChange={(e) => setVenue(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Tag"
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
+          <TextField
+            label="Total Tickets"
+            type="number"
+            value={totalTickets}
+            onChange={(e) => setTotalTickets(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            sx={{
+              input: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+              label: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+            InputLabelProps={{
+              style: { color: isDarkMode ? "#fff" : "var(--text-main)" },
+            }}
+          />
 
-          <div className="mb-3">
-            <label htmlFor="date" className="form-label">
-              Date:
-            </label>
-            <input
-              type="date"
-              className="form-control"
-              id="date"
-              required
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="time" className="form-label">
-              Time:
-            </label>
-            <input
-              type="time"
-              className="form-control"
-              id="time"
-              required
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="location" className="form-label">
-              Location:
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="location"
-              placeholder="Enter location"
-              required
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="price" className="form-label">
-              Price:
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              id="price"
-              placeholder="Enter price"
-              required
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="venue" className="form-label">
-              Venue:
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="venue"
-              placeholder="Enter venue"
-              required
-              value={venue}
-              onChange={(e) => setVenue(e.target.value)}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="tag" className="form-label">
-              Tag:
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="tag"
-              placeholder="Enter tag"
-              required
-              value={tag}
-              onChange={(e) => setTag(e.target.value)}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="totalTickets" className="form-label">
-              Total Tickets:
-            </label>
-            <input
-              type="number"
-              className="form-control"
-              id="totalTickets"
-              placeholder="Enter total tickets"
-              required
-              value={totalTickets}
-              onChange={(e) => setTotalTickets(e.target.value)}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="eventImage" className="form-label">
-              Event Image:
-            </label>
-            <input
-              type="file"
-              className="form-control"
-              id="eventImage"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files[0];
-                setEventImage(file);
-              }}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            />
-            {/* Preview existing or uploaded event image */}
-            {eventImage && (
-              <img
-                src={
-                  eventImage instanceof File
-                    ? URL.createObjectURL(eventImage)
-                    : eventImage
-                }
-                alt="Event Preview"
-                style={{ width: "100px", height: "100px", marginTop: "10px" }}
-              />
-            )}
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="extraImages" className="form-label">
-              Extra Images:
-            </label>
-            <input
-              type="file"
-              className="form-control"
-              id="extraImages"
-              accept="image/*"
-              multiple
-              onChange={(e) => {
-                const files = Array.from(e.target.files);
-                setExtraImages((prevImages) => [...prevImages, ...files]);
-              }}
-              style={{
-  background: "var(--main-bg)",
-  color: "var(--text-main)",
-  border: "1px solid var(--surface-border)",
-  borderRadius: "8px",
-}}
-            />
-            {/* Preview existing and uploaded extra images */}
-            <div
-              style={{
-                display: "flex",
-                gap: "10px",
-                marginTop: "10px",
-                flexWrap: "wrap",
-              }}
+          <Box sx={{ mt: 2 }}>
+            <Button
+              variant="contained"
+              component="label"
+              fullWidth
+              sx={{ mb: 1, borderRadius: 2, fontWeight: 600 }}
             >
+              Upload Event Image
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setEventImage(file);
+                }}
+              />
+            </Button>
+            {eventImage && (
+              <Box sx={{ mt: 1, mb: 2, textAlign: "center" }}>
+                <img
+                  src={
+                    eventImage instanceof File
+                      ? URL.createObjectURL(eventImage)
+                      : eventImage
+                  }
+                  alt="Event Preview"
+                  style={{ width: "100px", height: "100px", borderRadius: 8 }}
+                />
+              </Box>
+            )}
+          </Box>
+
+          <Box sx={{ mt: 2 }}>
+            <Button
+              variant="outlined"
+              component="label"
+              fullWidth
+              sx={{ mb: 1, borderRadius: 2, fontWeight: 600 }}
+            >
+              Upload Extra Images
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                multiple
+                onChange={(e) => {
+                  const files = Array.from(e.target.files);
+                  setExtraImages((prevImages) => [...prevImages, ...files]);
+                }}
+              />
+            </Button>
+            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mt: 1 }}>
               {extraImages.map((image, index) => (
                 <img
                   key={index}
@@ -414,22 +381,25 @@ const EditEvent = () => {
                     image instanceof File ? URL.createObjectURL(image) : image
                   }
                   alt={`Extra ${index + 1}`}
-                  style={{ width: "100px", height: "100px" }}
+                  style={{ width: "100px", height: "100px", borderRadius: 8 }}
                 />
               ))}
-            </div>
-          </div>
-          <button
+            </Box>
+          </Box>
+
+          <Button
             type="submit"
-            className={isDarkMode? "btn btn-outline-primary": "btn btn-primary"}
-            style={{margin: "10px auto", display: "block", width: "100%", marginBottom: "20px"}}
+            variant="contained"
+            color="primary"
+            fullWidth
+            disabled={isLoading}
+            sx={{ mt: 3, borderRadius: 2, fontWeight: 600 }}
           >
             Update Event
-          </button>
-          {error && <div className="error mt-3">{error}</div>}
-        </form>
-      </div>
-    </div>
+          </Button>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 

@@ -50,6 +50,10 @@ const Login = () => {
   color: "var(--text-main)",
   border: "1px solid var(--surface-border)",
   borderRadius: "8px",
+  '::placeholder': {
+      color: isDarkMode ? "#fff" : "#888",
+      opacity: 1,
+    }
 }}
                     />
                     <label className="form-label">Password:</label>

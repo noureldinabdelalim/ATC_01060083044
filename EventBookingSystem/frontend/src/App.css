@@ -6,6 +6,15 @@
   height: 40vmin;
   pointer-events: none;
 }
+.form-control::placeholder {
+  color: #888;
+  opacity: 1;
+}
+body.dark-mode .form-control::placeholder,
+.bg-dark .form-control::placeholder {
+  color: #fff;
+  opacity: 1;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
