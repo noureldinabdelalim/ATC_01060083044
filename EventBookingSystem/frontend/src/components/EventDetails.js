@@ -218,7 +218,9 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
                 )}
                 {/* Event Details */}
                 <div>
-                    <h2 className="card-title">{event.title}</h2>
+                    <h2 className="card-title">{event.title.length > 30
+    ? event.title.substring(0, 30) + "..."
+    : event.title}</h2>
                     <p>
                         <strong>Date: </strong>
                         {new Date(event.date).toLocaleDateString()}
