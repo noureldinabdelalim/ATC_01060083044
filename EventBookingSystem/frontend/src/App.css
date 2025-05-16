@@ -28,6 +28,15 @@
   color: #61dafb;
 }
 
+:root {
+  --events-bg-light: #b5afaf; 
+  --events-bg-dark: #222;
+}
+
+body {
+  background-color: #6f6c6c; /* Dark background */
+  color: #ffffff; /* Light text color */
+}
 
 body.dark-mode {
   background-color: #6f6c6c; /* Dark background */

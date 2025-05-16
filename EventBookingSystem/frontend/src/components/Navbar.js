@@ -25,7 +25,7 @@ const Navbar = () => {
         className={`navbar navbar-expand-sm ${
           isDarkMode ? "bg-dark" : "bg-primary"
         } navbar-dark`}
-        style={{ width: "95%", margin: "0 auto" }}
+        style={{ width: "100%", margin: "0 auto" }}
       >
         <div className="container-fluid">
           <Link to="/" className="navbar-brand d-flex align-items-center">
