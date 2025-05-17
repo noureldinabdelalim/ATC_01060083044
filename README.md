@@ -4,6 +4,9 @@ A modern, full-stack web application for discovering, creating, and booking even
  Built with React, Node.js, Express, and MongoDB. (MERN Stack). The web application has been deployed using Render for the backend and Vercel for the frontend.
 
  Link for the web app: https://event-booking-system-noureldin.vercel.app/
+ Admin sample credentials:
+ email: admin@admin.com
+ password: admin
 
 ## 🚀 Features
 
