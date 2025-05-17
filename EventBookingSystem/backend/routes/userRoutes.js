@@ -6,6 +6,7 @@ const {  getEvents, getEventsSortedByDate, addNewUserImage,
  } = require('../controllers/eventController')
 const { cancelBooking, bookEvent, getMyBookings, getMyUser, updateUser, requestOtp } = require('../controllers/userController')
 
+
 router.use(requireAuth)
 
 router.get('/', (req,res) => {
@@ -16,6 +17,9 @@ router.patch('/event/:id', addNewUserImage)
 router.get('/event', getEvents)
 router.get('/event/sorted', getEventsSortedByDate)
 router.get('/event/:id', getEventById)
+router.post('/event/book', bookEvent)
+router.delete('/event/cancel', cancelBooking)
+router.get('/event/bookings', getMyBookings)
 
 router.delete('/cancel/:id', cancelBooking )
 router.post('/book/:id', bookEvent)

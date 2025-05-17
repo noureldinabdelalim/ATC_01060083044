@@ -34,11 +34,12 @@ const updateUser = async (req, res) => {
 
 const bookEvent = async (req, res) => {
     const { id: eventId } = req.params; 
+
     const user = req.user; 
 
     try {
         // Check if the event exists
-        
+
         const event = await Event.findById(eventId);
         if (!event) {
             return res.status(404).json({ error: 'Event not found' });
@@ -60,6 +61,7 @@ const bookEvent = async (req, res) => {
         user.bookedEvents.push( eventId );
         console.log(user.bookedEvents)
 
+
         await user.save();
 
         res.status(200).json({ message: 'Booking successful', event, user });
@@ -74,6 +76,7 @@ const getMyBookings = async (req, res) => {
     try {
         const userWithBookings = await User.findById(user._id).populate('bookedEvents');
         console.log(userWithBookings.bookedEvents)
+
         
         res.status(200).json(userWithBookings.bookedEvents);
     } catch (error) {
@@ -106,6 +109,7 @@ const requestOtp = async (req, res) => {
         // Send OTP via email
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
+
             auth: {
                 user: process.env.EMAIL, // Your email
                 pass: process.env.EMAIL_PASSWORD // Your email password
@@ -128,6 +132,7 @@ const requestOtp = async (req, res) => {
 		}
 	})
 
+
         res.status(200).json({ message: 'OTP sent to your email' });
     } catch (error) {
         console.error(error);
@@ -137,6 +142,7 @@ const requestOtp = async (req, res) => {
 const cancelBooking = async (req, res) => {
     const { id: eventId } = req.params; 
     const user = req.user; 
+
 
     try {
         const event = await Event.findById(eventId);
@@ -151,6 +157,7 @@ const cancelBooking = async (req, res) => {
 
         user.bookedEvents.splice(eventIndex, 1);
         console.log(user.bookedEvents)
+
         await user.save();
 
         event.availableTickets += 1;
@@ -169,3 +176,4 @@ const cancelBooking = async (req, res) => {
 
 
 module.exports = {bookEvent, getMyBookings, cancelBooking, getMyUser, updateUser}
+

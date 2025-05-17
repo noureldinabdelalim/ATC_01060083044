@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useDarkMode } from "../context/DarkModeContext";
 import { Button, Stack } from "@mui/material";
@@ -86,6 +87,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
     };
 
     const handleDeleteEvent = async () => {
+
         if (!user) return;
 
         const URL = process.env.REACT_APP_BACKEND_URL;
@@ -101,6 +103,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
             console.log(json);
             fetchEvents();
             onSuccessDelete("Event deleted successfully!");
+
         } else {
             console.log("Error deleting event");
         }
@@ -202,6 +205,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
     </Stack>
 
             <div className="card-body d-flex">
+
                 {event.eventImage && (
                     <img
                         src={event.eventImage}
@@ -220,6 +224,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
                     <h2 className="card-title">{event.title.length > 30
     ? event.title.substring(0, 30) + "..."
     : event.title}</h2>
+
                     <p>
                         <strong>Date: </strong>
                         {new Date(event.date).toLocaleDateString()}
@@ -235,6 +240,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
                 </div>
             </div>
          {isExpanded && (
+
                 <div className="card-body">
                     <div className="row">
                         <div className="col">
@@ -276,6 +282,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
 
                     {event.extraImages && event.extraImages.length > 0 && (
                         <div id={`carousel-${event._id}`} className="carousel slide" data-bs-ride="carousel">
+
                             <div className="carousel-indicators">
                                 {event.extraImages.map((_, index) => (
                                     <button
@@ -290,7 +297,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
                                 ))}
                             </div>
 
- 
+
                             <div className="carousel-inner">
                                 {event.extraImages.map((image, index) => (
                                     <div
@@ -303,10 +310,12 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
                                             className="d-block w-100"
                                             style={{ maxHeight: "400px", objectFit: "cover" }}
                                             loading="lazy"
+
                                         />
                                     </div>
                                 ))}
                             </div>
+
 
                             <button
                                 className="carousel-control-prev"
@@ -328,8 +337,10 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
                     )}
                 </div>
             )}
+
         </div>
     );
 };
 
 export default EventDetails;
+

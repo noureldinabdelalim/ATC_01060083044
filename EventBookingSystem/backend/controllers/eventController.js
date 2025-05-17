@@ -2,7 +2,9 @@ const Event = require('../models/Event');
 const mongoose = require('mongoose')
 createEvent = async (req, res) => {
 
+
     const { title, description, date,tag, time, location, eventImage, totalTickets, price, venue, extraImages } = req.body
+
     
     let emptyFields = []
     if (!title) {
@@ -35,6 +37,7 @@ createEvent = async (req, res) => {
     }
         if (!tag) {
         emptyFields.push('tag')
+
     }
 
     if (!eventImage) {
@@ -49,6 +52,7 @@ createEvent = async (req, res) => {
     
     try {
         const event = await Event.create({title,description,date,time,location,eventImage,totalTickets,availableTickets: totalTickets, price, venue, extraImages, tag})
+
         
         res.status(200).json({mssg: 'Event created successfully', event: {
             _id: event._id, 
@@ -64,6 +68,7 @@ createEvent = async (req, res) => {
             venue: event.venue,
             extraImages: event.extraImages,
             tag: event.tag
+
         }})
     }
     catch (error) {

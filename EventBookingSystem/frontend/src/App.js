@@ -16,6 +16,7 @@ import AddAdmin from "./pages/AddAdmin";
 import AppNavBar from "./components/AppNavBar";
 import Otp from "./pages/Otp";
 import LandingPage from "./pages/LandingPage";
+
 function App() {
   const {user} = useAuthContext()
   return (
@@ -52,6 +53,7 @@ function App() {
           </Routes>
         </div>
         <Footer />
+
       </BrowserRouter>
     </div>
   );

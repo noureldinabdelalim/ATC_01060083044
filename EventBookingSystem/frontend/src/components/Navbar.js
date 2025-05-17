@@ -10,12 +10,14 @@ const Navbar = () => {
   const location = useLocation();
   const { isDarkMode } = useDarkMode(); 
 
+
   const handleLogout = () => {
     logout();
   };
 
   return (
     <header>
+
 
 
       <nav

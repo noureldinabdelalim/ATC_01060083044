@@ -36,6 +36,7 @@ const Home = () => {
   const handleSuccessDeleteMessage = (message) => {
     setSuccessDeleteMessage(message);
 
+
     setTimeout(() => {
       setSuccessDeleteMessage("");
     }, 5000);
@@ -323,6 +324,7 @@ const Home = () => {
                   {tag}
                 </button>
               ))}
+
             </div>
           </div>
           <br /><br />

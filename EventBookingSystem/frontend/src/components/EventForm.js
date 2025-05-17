@@ -36,6 +36,7 @@ const EventForm = ({ fetchEvents }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [success, setSuccess] = useState(false)
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -92,6 +93,7 @@ const EventForm = ({ fetchEvents }) => {
         };
 
         try{
+
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/admin/event`, {
             method: "POST",
             headers: {
@@ -120,6 +122,7 @@ const EventForm = ({ fetchEvents }) => {
             setEmptyFields([]);
             setIsLoading(false);
             setSuccess(true);
+
 
             setTimeout(() => {
                 setSuccess(false);
@@ -373,6 +376,7 @@ const EventForm = ({ fetchEvents }) => {
             >
               Upload Event Image
               <input
+
                 type="file"
                 accept="image/*"
                 hidden
@@ -448,6 +452,7 @@ const EventForm = ({ fetchEvents }) => {
           >
             Create Event
           </Button>
+
         </form>
       </Paper>
     </Container>
