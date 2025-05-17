@@ -4,7 +4,7 @@ const URL = process.env.REACT_APP_BACKEND_URL;
 
 const Otp = () => {
     const [email, setEmail] = useState('');
-    const [otpSent, setOtpSent] = useState(false); // State to track if OTP is sent
+    const [otpSent, setOtpSent] = useState(false); 
     const [otp, setOtp] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [error, setError] = useState(null);
@@ -27,7 +27,7 @@ const Otp = () => {
             if (!response.ok) {
                 setError(json.error || 'Failed to send OTP');
             } else {
-                setOtpSent(true); // Show OTP and new password fields
+                setOtpSent(true); 
             }
         } catch (err) {
             setError('Something went wrong. Please try again.');
@@ -54,7 +54,6 @@ const Otp = () => {
                 setError(json.error || 'Failed to verify OTP');
             } else {
                 alert('Password updated successfully!');
-                // Optionally redirect the user to the login page
             }
         } catch (err) {
             setError('Something went wrong. Please try again.');
@@ -67,7 +66,6 @@ const Otp = () => {
         <form className="forgotPassword" onSubmit={otpSent ? handleSubmit : handleRequestOtp}>
             <h3>Forgot Password</h3>
 
-            {/* Email Input */}
             <label>Email:</label>
             <input
                 type="email"
@@ -76,7 +74,6 @@ const Otp = () => {
                 required
             />
 
-            {/* Conditionally Render OTP and New Password Fields */}
             {otpSent ? (
                 <>
                     <label>OTP:</label>
@@ -101,14 +98,12 @@ const Otp = () => {
                 </button>
             )}
 
-            {/* Submit Button for OTP Verification */}
             {otpSent && (
                 <button type="submit" disabled={isLoading}>
                     Submit
                 </button>
             )}
 
-            {/* Error and Loading States */}
             {error && <div className="error">{error}</div>}
             {isLoading && <div className="loading">Loading...</div>}
         </form>

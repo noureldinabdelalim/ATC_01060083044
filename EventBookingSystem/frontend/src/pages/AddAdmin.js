@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import { useDarkMode } from "../context/DarkModeContext"; // Import the dark mode context
+import { useDarkMode } from "../context/DarkModeContext"; 
 import { useAuthContext } from '../hooks/useAuthContext'
 import {
   Container,
@@ -22,10 +22,10 @@ const AddAdmin = () => {
     const [dob, setDob] = useState('');
     const [address, setAddress] = useState('');
     const [nationalId, setNationalId] = useState('');
-    const { isDarkMode } = useDarkMode(); // Access dark mode state
+    const { isDarkMode } = useDarkMode(); 
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
-    const [success, setSuccess] = useState(false); // State to track success message
+    const [success, setSuccess] = useState(false); 
 
 
     const {user} = useAuthContext()

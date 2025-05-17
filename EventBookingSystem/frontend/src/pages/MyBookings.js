@@ -18,7 +18,7 @@ useEffect(() => {
                 const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/myBookings`, {
                     method: "GET",
                     headers: {
-                        Authorization: `Bearer ${user.token}`, // Assuming token is stored in localStorage
+                        Authorization: `Bearer ${user.token}`, 
                     },
                 });
 

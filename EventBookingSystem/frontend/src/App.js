@@ -20,59 +20,34 @@ function App() {
   const {user} = useAuthContext()
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Welcome to TheBooker</p>
-        </header> */}
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
+
       <BrowserRouter>
         <AppNavBar />
         <div className="pages">
           <Routes>
-            {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={!user ? <Login /> : <Navigate to="/home" />} />
             <Route path="/register" element={!user ? <Register /> : <Navigate to="/home" />} />
 
-            {/* Protected Routes */}
             {user && user.role === "admin" && (
               <>
-                {/* Admin Routes */}
                 <Route path="/home" element={<Home />} />
                 <Route path="/create-event" element={<CreateEvent />} />
                 <Route path="/add-admin" element={<AddAdmin />} />
                 <Route path="/edit-event/:id" element={<EditEvent />} />
 
-                {/* Add more admin-specific routes here */}
               </>
             )}
 
             {user && user.role === "user" && (
               <>
-                {/* User Routes */}
                 <Route path="/home" element={<Home />} />
                 <Route path="/my-bookings" element={<MyBookings />} />
                 <Route path="/booking-confirmation" element={<BookingConfirmation />} />
                 <Route path="/my-profile" element={<MyProfile />} />
-                {/* <Route path="/user" element={<UserDashboard />} /> */}
-                {/* Add more user-specific routes here */}
               </>
             )}
 
-            {/* Redirect to login if no matching route */}
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>

@@ -140,7 +140,7 @@ const EditEvent = () => {
     if (response.ok) {
       setIsLoading(false);
       console.log("Event updated successfully:", json);
-      navigate("/home"); // Redirect back to the home page or event list
+      navigate("/home");
     } else {
       setError(json.error || "Failed to update event.");
     }

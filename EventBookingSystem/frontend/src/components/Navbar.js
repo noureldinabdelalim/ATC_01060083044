@@ -8,7 +8,7 @@ const Navbar = () => {
   const { logout } = useLogout();
   const { user } = useAuthContext();
   const location = useLocation();
-  const { isDarkMode } = useDarkMode(); // Access dark mode state
+  const { isDarkMode } = useDarkMode(); 
 
   const handleLogout = () => {
     logout();
@@ -16,7 +16,6 @@ const Navbar = () => {
 
   return (
     <header>
-      {/* <div className="container"> */}
 
 
       <nav
@@ -31,18 +30,16 @@ const Navbar = () => {
             <img
               src={logo}
               alt="The Booker Logo"
-              style={{ height: "60px", marginRight: "10px" }} // Increased height to 60px
+              style={{ height: "60px", marginRight: "10px" }} 
             />
             <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>
               The Booker
             </span>{" "}
-            {/* Optional: Adjust text size */}
           </Link>
           <ul className="navbar-nav ms-auto d-flex flex-row align-items-center">
             {user && (
               <>
                 <span className="navbar-text me-3">Welcome, {user.name}</span>
-                {/* Admin Section */}
                 {user.role === "admin" && (
                   <>
                     <li className="nav-item">
@@ -63,7 +60,6 @@ const Navbar = () => {
                   </>
                 )}
 
-                {/* User Section */}
                 {user.role === "user" && (
                   <>
                     <li className="nav-item">
@@ -84,7 +80,6 @@ const Navbar = () => {
                   </>
                 )}
 
-                {/* Logout */}
                 <li className="nav-item">
                   <a className="nav-link" href="/login" onClick={handleLogout}>
                     Log Out
@@ -114,7 +109,6 @@ const Navbar = () => {
           </ul>
         </div>
       </nav>
-      {/* </div> */}
     </header>
   );
 };

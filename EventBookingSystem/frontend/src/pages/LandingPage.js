@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Button, Typography, TextField, Container, Paper, Link } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import logoTheBooker from "../logoTheBooker.png";
+import event from "../event.webp"
+import event2 from "../event2.avif"
 
 const GradientBackground = styled(Box)({
   minHeight: "100vh",
@@ -74,7 +76,6 @@ const StartNowButton = styled(Button)({
 const LandingPage = () => {
   return (
     <GradientBackground>
-      {/* NavBar */}
       
 
       {/* Main Content */}
@@ -89,7 +90,7 @@ const LandingPage = () => {
             fontSize: { xs: "2.2rem", md: "3.5rem" },
           }}
         >
-          Our latest <Box component="span" sx={{ color: "#5ea0ef" }}>products</Box>
+          Book Your <Box component="span" sx={{ color: "#5ea0ef" }}>Events</Box>
         </Typography>
         <Typography
           variant="h6"
@@ -101,38 +102,47 @@ const LandingPage = () => {
             fontWeight: 400,
           }}
         >
-          Explore our cutting-edge event booking platform, delivering high-quality experiences tailored to your needs. Elevate your events with top-tier features and seamless management.
+          Explore all the new Events and book your favorite ones. Join us to discover the best events in town as well as out of town in case you are a traveler.
         </Typography>
-        <EmailBox elevation={0}>
-          <TextField
-            variant="standard"
-            placeholder="Your email address"
-            InputProps={{
-              disableUnderline: true,
-              sx: {
-                color: "#fff",
-                background: "transparent",
-                fontSize: "1.1rem",
-                px: 1,
-                width: 240,
-              },
-            }}
-            sx={{
-              background: "transparent",
-              borderRadius: 2,
-              "& input": { color: "#fff" },
-            }}
-          />
-          <StartNowButton variant="contained">
-            Start now
-          </StartNowButton>
-        </EmailBox>
-        <Typography variant="body2" sx={{ color: "#b0b8c7", mt: 1 }}>
-          By clicking "Start now" you agree to our{" "}
-          <Link href="#" underline="hover" sx={{ color: "#fff", fontWeight: 500 }}>
-            Terms & Conditions
-          </Link>.
-        </Typography>
+        <Box
+  sx={{
+    display: "flex",
+    gap: { xs: 2, md: 4 },
+    justifyContent: "center",
+    alignItems: "center",
+    mt: 2,
+    mb: 4,
+    flexWrap: "wrap",
+  }}
+>
+  <Box
+    component="img"
+    src={event}
+    alt="Event 1"
+    sx={{
+      width: { xs: 300, sm: 360, md: 400 },
+      height: { xs: 240, sm: 260, md: 280 },
+      objectFit: "cover",
+      borderRadius: 4,
+      boxShadow: 3,
+      background: "#fff",
+    }}
+  />
+  <Box
+    component="img"
+    src={event2}
+    alt="Event 2"
+    sx={{
+      width: { xs: 300, sm: 360, md: 400 },
+      height: { xs: 240, sm: 260, md: 280 },
+      objectFit: "cover",
+      borderRadius: 4,
+      boxShadow: 3,
+      background: "#fff",
+    }}
+  />
+</Box>
+
       </MainContent>
     </GradientBackground>
   );

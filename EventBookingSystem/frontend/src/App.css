@@ -23,7 +23,7 @@ body.dark-mode .form-control::placeholder,
 }
 
 .App-header {
-  background: var(--main-bg); /* Use your theme variable */
+  background: var(--main-bg);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -71,7 +71,7 @@ body.dark-mode h4,
 body.dark-mode h5,
 body.dark-mode h6,
 body.dark-mode p {
-  color: #ffffff; /* Light text color for headings and paragraphs */
+  color: #ffffff; 
 }
 
 @keyframes App-logo-spin {

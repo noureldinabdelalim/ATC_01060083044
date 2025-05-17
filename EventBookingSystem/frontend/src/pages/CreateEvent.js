@@ -31,7 +31,6 @@ const fetchEvents = async () => {
 
     return (
         <div className="NewEvent">
-            {/* <h1>Welcome to the Home Page</h1> */}
 
             <EventForm fetchEvents={fetchEvents}/>
 

@@ -7,9 +7,9 @@ export const authReducer = (state, action) => {
         case "LOGIN":
             return { ...state, user: action.payload };
         case "LOGOUT":
-            return { ...state, user: null, bookings: [] }; // Clear bookings on logout
+            return { ...state, user: null, bookings: [] }; 
         case "SET_BOOKINGS":
-            return { ...state, bookings: action.payload }; // Set bookings
+            return { ...state, bookings: action.payload }; 
         default:
             return state;
     }
@@ -18,7 +18,7 @@ export const authReducer = (state, action) => {
 export const AuthContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, {
         user: null,
-        bookings: [], // Add bookings to the initial state
+        bookings: [], 
     });
 
     useEffect(() => {
@@ -26,7 +26,6 @@ export const AuthContextProvider = ({ children }) => {
         if (user) {
             dispatch({ type: "LOGIN", payload: user });
 
-            // Fetch bookings after login
             const fetchBookings = async () => {
                 const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/myBookings`, {
                     headers: {

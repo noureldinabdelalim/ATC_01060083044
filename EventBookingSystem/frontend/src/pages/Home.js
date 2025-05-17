@@ -10,13 +10,13 @@ const Home = () => {
   const { user } = useAuthContext();
 
   const [events, setEvents] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1); // Current page
+  const [currentPage, setCurrentPage] = useState(1);
   const eventsPerPage = 5;
   const [allEvents, setAllEvents] = useState([]);
 
 
-  const [priceRange, setPriceRange] = useState([0, 100000]); // Default price range
-  const [selectedDate, setSelectedDate] = useState(""); // Date filter
+  const [priceRange, setPriceRange] = useState([0, 100000]); 
+  const [selectedDate, setSelectedDate] = useState(""); 
   const [ticketsRange, setTicketsRange] = useState([0, 100000]);
   const [selectedTag, setSelectedTag] = useState("All Tags");
 
@@ -27,7 +27,6 @@ const Home = () => {
   const handleSuccessMessage = (message) => {
     setSuccessMessage(message);
 
-    // Automatically hide the message after 5 seconds
     setTimeout(() => {
       setSuccessMessage("");
     }, 5000);
@@ -37,7 +36,6 @@ const Home = () => {
   const handleSuccessDeleteMessage = (message) => {
     setSuccessDeleteMessage(message);
 
-    // Automatically hide the message after 5 seconds
     setTimeout(() => {
       setSuccessDeleteMessage("");
     }, 5000);
@@ -53,7 +51,7 @@ const Home = () => {
     "Festival",
     "Ceremony",
   ];
-  const [sortBy, setSortBy] = useState("dateAdded"); // "dateAdded", "eventDate", "price"
+  const [sortBy, setSortBy] = useState("dateAdded"); 
 
   const sortEvents = (events, sortBy) => {
     const sorted = [...events];
@@ -62,7 +60,6 @@ const Home = () => {
     } else if (sortBy === "price") {
       sorted.sort((a, b) => a.price - b.price);
     } else {
-      // Default: sort by dateAdded (assuming _id is ObjectId and newer is greater)
       sorted.sort((a, b) => (a._id < b._id ? 1 : -1));
     }
     return sorted;
@@ -74,7 +71,6 @@ const Home = () => {
   const filteredEvents = events.filter((event) => {
     const withinPriceRange =
       event.price >= priceRange[0] && event.price <= priceRange[1];
-    // const matchesDate = selectedDate ? event.date === selectedDate : true;
     console.log("Selected Date:", selectedDate);
     console.log(
       "Event Date (formatted):",
@@ -124,36 +120,16 @@ const Home = () => {
   }, [user]);
 
   const handleFilterChange = (callback) => {
-    setLoading(true); // Show spinner
+    setLoading(true); 
     setTimeout(() => {
-      callback(); // Apply the filter change
-      setLoading(false); // Hide spinner
-    }, 500); // Simulate a delay for the spinner
+      callback(); 
+      setLoading(false); 
+    }, 500); 
   };
 
   return (
     <div>
 
-      {/* {loading && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 2000,
-          }}
-        >
-          <div className="spinner-border text-light" style={{ width: "3rem", height: "3rem" }} role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      )} */}
       {successMessage && (
   <Slide direction="down" in={!!successMessage} mountOnEnter unmountOnExit>
     <Alert
@@ -163,7 +139,6 @@ const Home = () => {
         position: "fixed",
         top: 100,
         right: 32,
-        // transform: "translateX(-50%)",
         zIndex: 2000,
         width: { xs: "90%", sm: "35%", md: "28%" },
         textAlign: "center",
@@ -184,7 +159,6 @@ const Home = () => {
         position: "fixed",
         top: 100,
         right: 32,
-        // transform: "translateX(-50%)",
         zIndex: 2000,
         width: { xs: "90%", sm: "35%", md: "28%" },
         textAlign: "center",
@@ -205,7 +179,7 @@ const Home = () => {
               left: 0,
               width: "100%",
               height: "100%",
-              backgroundColor: "rgba(0, 0, 0, 0.5)", // Fade background
+              backgroundColor: "rgba(0, 0, 0, 0.5)", 
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -233,8 +207,8 @@ const Home = () => {
             borderBottom: "2px solid #ccc",
             borderLeft: "2px solid #ccc",
             borderTop: "2px solid #ccc",
-            height: "100%", // Make it full height
-            overflowY: "auto", // Add scroll if content overflows
+            height: "100%", 
+            overflowY: "auto", 
             backgroundColor: (isDarkMode
       ? "var(--events-bg-dark)"
       : "#e6f0fa"),
@@ -249,7 +223,6 @@ const Home = () => {
       style={{
         backgroundColor: "#fff",
         color: "#000",
-        // Add more styling here if you want to match dark mode, etc.
       }}
       value={sortBy}
       onChange={(e) => {
@@ -263,7 +236,6 @@ const Home = () => {
     </select>
   </div>
           <h4>Filters</h4>
-          {/* Price Range Filter */}
           <div className="mb-3">
             <label>Price Range:</label>
             <br />
@@ -294,7 +266,6 @@ const Home = () => {
             </p>
           </div>
 
-          {/* Date Filter */}
           <div className="mb-3">
             <label>Date:</label>
             <input
@@ -310,7 +281,6 @@ const Home = () => {
             />
           </div>
 
-          {/* Tickets Range Filter */}
           <div className="mb-3">
             <label>Available Tickets:</label>
             <br />
@@ -360,7 +330,6 @@ const Home = () => {
 
         </div>
 
-        {/* Events Section */}
         <div className="events-section p-3" style={{ width: "75%",
           backgroundColor: isDarkMode
       ? "var(--events-bg-dark)"
@@ -383,7 +352,6 @@ const Home = () => {
 
         </div>
       </div>
-          {/* Pagination */}
           <nav>
             <ul className="pagination justify-content-center">
               {Array.from(

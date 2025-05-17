@@ -33,11 +33,11 @@ const Register = () => {
 
         <form className="register" onSubmit={handleSubmit}
         style={{
-                    backgroundColor: isDarkMode ? "#333" : "#f0f0f0", // Dark mode background
-                    color: isDarkMode ? "#fff" : "#000", // Light grey background
-                    padding: "20px", // Add padding for spacing
-                    borderRadius: isDarkMode ? "8px" : "8px", // Rounded corners
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow for better appearance
+                    backgroundColor: isDarkMode ? "#333" : "#f0f0f0", 
+                    color: isDarkMode ? "#fff" : "#000",
+                    padding: "20px", 
+                    borderRadius: isDarkMode ? "8px" : "8px", 
+                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", 
                 }}>
             <div class="mb-3 mt-3">
             <h3 style={{ textAlign: "center" }}>Register</h3>

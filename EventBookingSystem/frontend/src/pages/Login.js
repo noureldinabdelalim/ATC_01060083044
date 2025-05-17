@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
-import { useDarkMode } from "../context/DarkModeContext"; // Import the dark mode context
+import { useDarkMode } from "../context/DarkModeContext"; 
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -8,7 +8,7 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { login, isLoading, error } = useLogin();
-    const { isDarkMode } = useDarkMode(); // Access dark mode state
+    const { isDarkMode } = useDarkMode(); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,12 +28,11 @@ const Login = () => {
                 className="login"
                 onSubmit={handleSubmit}
                 style={{
-                    backgroundColor: isDarkMode ? "#333" : "#f0f0f0", // Dark mode background
-                    color: isDarkMode ? "#fff" : "#000", // Dark mode text color
-                    padding: "20px", // Add padding for spacing
-                    borderRadius: isDarkMode ? "8px" : "8px", // Rounded corners
+                    backgroundColor: isDarkMode ? "#333" : "#f0f0f0", 
+                    color: isDarkMode ? "#fff" : "#000", 
+                    padding: "20px",
+                    borderRadius: isDarkMode ? "8px" : "8px", 
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", 
-                    // border: isDarkMode ? "5px solid #555" : "none",
                 }}
             >
                 <div className="mb-3 mt-3">

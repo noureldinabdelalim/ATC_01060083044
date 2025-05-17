@@ -7,10 +7,9 @@ import html2canvas from "html2canvas";
 const BookingConfirmation = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const confirmationRef = useRef(); // Reference to the confirmation content
+    const confirmationRef = useRef(); 
 
 
-    // Assuming the user's data and event details are passed via `location.state`
     const { user, event } = location.state || {};
     
 
@@ -49,7 +48,6 @@ const BookingConfirmation = () => {
                 </div>
                 <div className="card-body">
                     <div className="row">
-                        {/* User Details */}
                         <div className="col-md-6">
                             <h4 className="text-primary">Your Details</h4>
                             <ul className="list-group">
@@ -74,7 +72,6 @@ const BookingConfirmation = () => {
                             </ul>
                         </div>
 
-                        {/* Event Details */}
                         <div className="col-md-6">
                             <h4 className="text-primary">Event Details</h4>
                             <ul className="list-group">
@@ -100,7 +97,6 @@ const BookingConfirmation = () => {
                         </div>
                     </div>
 
-                    {/* Event Images */}
                     <div className="mt-4">
                         <h4 className="text-primary text-center">Event Images</h4>
                         <div className="d-flex justify-content-center flex-wrap gap-3">

@@ -18,7 +18,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
 
 
     const handleEditEvent = () => {
-        navigate(`/edit-event/${event._id}`); // Redirect to the edit event page
+        navigate(`/edit-event/${event._id}`);
     };
     const handleBookNow = async () => {
         if (!user) return;
@@ -202,7 +202,6 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
     </Stack>
 
             <div className="card-body d-flex">
-                {/* Event Image */}
                 {event.eventImage && (
                     <img
                         src={event.eventImage}
@@ -216,7 +215,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
                         loading="lazy"
                     />
                 )}
-                {/* Event Details */}
+
                 <div>
                     <h2 className="card-title">{event.title.length > 30
     ? event.title.substring(0, 30) + "..."
@@ -275,10 +274,8 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
                         </div>
                     </div>
 
-                    {/* Carousel for extraImages */}
                     {event.extraImages && event.extraImages.length > 0 && (
                         <div id={`carousel-${event._id}`} className="carousel slide" data-bs-ride="carousel">
-                            {/* Indicators */}
                             <div className="carousel-indicators">
                                 {event.extraImages.map((_, index) => (
                                     <button
@@ -293,7 +290,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
                                 ))}
                             </div>
 
-                            {/* Carousel Items */}
+ 
                             <div className="carousel-inner">
                                 {event.extraImages.map((image, index) => (
                                     <div
@@ -311,7 +308,6 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
                                 ))}
                             </div>
 
-                            {/* Controls */}
                             <button
                                 className="carousel-control-prev"
                                 type="button"
