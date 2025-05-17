@@ -1,4 +1,3 @@
-![Screenshot 2025-05-17 192143](https://github.com/user-attachments/assets/817ebd39-ab46-4ea1-be2b-92c32a67b054)
 # Event Booking System
 
 A modern, full-stack web application for discovering, creating, and booking events.
@@ -18,6 +17,7 @@ A modern, full-stack web application for discovering, creating, and booking even
 * **Professional UI** with Material-UI (MUI) and some Bootstrap
 * **PDF Booking Confirmation** download
 * **Profile Management** for users
+* **Deployment** on Render and Vercel (Link above)
 
 ## 🛠️ Tech Stack
 
@@ -88,8 +88,8 @@ cd EventBookingSystemNoureldin
 ```bash
 cd backend
 npm install
-# I put an example for it below
-npm start
+# I put an example for the .env below
+npm start or npm run dev if you want to use nodemon
 ```
 
 ### 3\. Setup the Frontend
@@ -97,7 +97,7 @@ npm start
 ```bash
 cd frontend
 npm install
-# I also put an example for it below
+# I also put an example for its .env below
 npm start
 ```
 
