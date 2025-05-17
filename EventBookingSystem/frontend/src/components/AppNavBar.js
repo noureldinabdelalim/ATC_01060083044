@@ -59,7 +59,7 @@ export default function AppNavBar() {
     <NavBar>
       <Box display="flex" alignItems="center">
         <Logo src={logoTheBooker} alt="TheBooker Logo" />
-        <Typography variant="h6" sx={{ fontWeight: 700, color: "#5ea0ef", letterSpacing: 1 }}>
+        <Typography to="/" component={RouterLink} variant="h5" sx={{ fontWeight: 700, textDecoration: "none", color: "#5ea0ef", letterSpacing: 1 }}>
           TheBooker
         </Typography>
       </Box>

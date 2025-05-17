@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const validator = require('validator')
 const bcrypt =  require('bcrypt')
-const { use } = require('react')
+// const { use } = require('react')
 const userSchema = new Schema({
     name: {
         type: String,
