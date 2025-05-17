@@ -80,27 +80,22 @@ userSchema.statics.updatePass = async function(email,password){
 
 }
 userSchema.statics.addAdmin = async function(name, email, password, phone, address, dob, nationalId) {
-    // Validate required fields
     if (!name || !email || !password) {
         throw Error('Name, email, and password are required');
     }
 
-    // Validate email format
     if (!validator.isEmail(email)) {
         throw Error('Invalid email format');
     }
 
-    // Check if the email is already in use
     const exists = await this.findOne({ email });
     if (exists) {
         throw Error('Email already in use');
     }
 
-    // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
-    // Create the admin user
     const admin = await this.create({
         name,
         email,
@@ -109,7 +104,7 @@ userSchema.statics.addAdmin = async function(name, email, password, phone, addre
         address,
         dob,
         nationalId,
-        role: 'admin', // Set the role to 'admin'
+        role: 'admin', 
     });
 
     return admin;
@@ -167,16 +162,6 @@ userSchema.statics.login = async function(email, password) {
 
     return user
 }
-// Hash password before saving
-// userSchema.pre('save', async function (next) {
-//   if (!this.isModified('password')) return next();
-//   this.password = await bcrypt.hash(this.password, 10);
-//   next();
-// });
 
-// // Compare entered password with hashed password
-// userSchema.methods.matchPassword = async function (enteredPassword) {
-//   return await bcrypt.compare(enteredPassword, this.password);
-// };
 
 module.exports = mongoose.model('User', userSchema);

@@ -40,19 +40,15 @@ const requestOtp = async (req, res) => {
     const { email } = req.body;
 
     try {
-        // Check if the user exists
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Generate a 6-digit OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-        // Set OTP expiration time (e.g., 10 minutes from now)
         const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-        // Save OTP and expiration time in the database
         user.newestOTP = otp;
         user.otpExpiry = otpExpiresAt;
         await user.save();
@@ -61,8 +57,8 @@ const requestOtp = async (req, res) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL, // Your email
-                pass: process.env.EMAIL_PASSWORD // Your email password
+                user: process.env.EMAIL, 
+                pass: process.env.EMAIL_PASSWORD 
             }
         });
 
@@ -85,13 +81,11 @@ const verifyOtp = async (req, res) => {
     const { email, otp, newPass } = req.body;
 
     try {
-        // Check if the user exists
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Check if the OTP matches and is not expired
         if (user.newestOTP !== otp || user.otpExpiry < new Date()) {
             return res.status(400).json({ error: 'Invalid or expired OTP' });
         }
@@ -110,28 +104,7 @@ const verifyOtp = async (req, res) => {
     }
 };
 
-// const createAdmin = async (req,res) => {
-//     const { email, password, name, phone, Address, dob, nationalId } = req.body;
-//     try {
-//         const admin = await User.addAdmin(name, email, password, phone, Address, dob, nationalId);
-//         const token = createToken(admin._id, admin.name, admin.role)
-//         const userRole = admin.role
-//         res.status(200).json({email,name,role:userRole, token})
-//         console.log('Admin created successfully:', admin);
-//     } catch (error) {
-//         console.error('Error creating admin:', error.message);
-//     }
-// };
-// const deleteAdmin = async (req,res) => {
-//     const { email } = req.body;
-//     try {
-//         const admin = await User.findOneAndDelete(email);
-//         res.status(200).json({message: 'Admin deleted successfully'})
-//         console.log('Admin deleted successfully:', admin);
-//     } catch (error) {
-//         console.error('Error deleting admin:', error.message);
-//     }
-// };
+
 
 
 

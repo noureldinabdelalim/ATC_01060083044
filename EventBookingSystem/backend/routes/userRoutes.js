@@ -26,7 +26,6 @@ router.post('/book/:id', bookEvent)
 router.get('/myBookings', getMyBookings)
 router.get('/myUser', getMyUser)
 router.put('/updateUser', updateUser)
-// router.post('/requestOtp', requestOtp)
 
 
 

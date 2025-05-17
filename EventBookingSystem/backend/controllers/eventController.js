@@ -135,25 +135,20 @@ const updateEvent = async (req, res) => {
             return res.status(404).json({ error: "Event not found" });
         }
 
-        // Calculate the number of tickets already booked
         const ticketsBooked = existingEvent.totalTickets - existingEvent.availableTickets;
 
-        // If `totalTickets` is being updated, adjust `availableTickets` accordingly
         if (updates.totalTickets !== undefined) {
             const newTotalTickets = updates.totalTickets;
 
-            // Ensure the new totalTickets is not less than the number of tickets already booked
             if (newTotalTickets < ticketsBooked) {
                 return res.status(400).json({
                     error: `Total tickets cannot be less than the number of tickets already booked (${ticketsBooked}).`
                 });
             }
 
-            // Update availableTickets based on the new totalTickets
             updates.availableTickets = newTotalTickets - ticketsBooked;
         }
 
-        // Update the event with the new data
         const updatedEvent = await Event.findByIdAndUpdate(id, updates, { new: true });
         res.status(200).json(updatedEvent);
     } catch (error) {

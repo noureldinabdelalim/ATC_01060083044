@@ -4,7 +4,7 @@ const Event = require('../models/Event');
 
 
 const getMyUser = async (req, res) => {
-    const user = req.user; // Assuming you have middleware to set req.user
+    const user = req.user; 
     try {
         const userDetails = await User.findById(user._id)
         res.status(200).json({_id: userDetails._id, name: userDetails.name, email: userDetails.email, phone: userDetails.phone, address: userDetails.address, dob: userDetails.dob, nationalId: userDetails.nationalId});
@@ -22,7 +22,7 @@ const updateUser = async (req, res) => {
         const updatedUser = await User.findByIdAndUpdate(
             user._id,
             { name, email, phone, address, dob, nationalId },
-            { new: true } // Return the updated user
+            { new: true } 
         );
         res.status(200).json(updatedUser);
     } catch (error) {
@@ -38,26 +38,22 @@ const bookEvent = async (req, res) => {
     const user = req.user; 
 
     try {
-        // Check if the event exists
 
         const event = await Event.findById(eventId);
         if (!event) {
             return res.status(404).json({ error: 'Event not found' });
         }
 
-        // Check if there are enough available tickets
         if (event.availableTickets < 1) {
             return res.status(400).json({ error: 'Not enough available tickets' });
         }
 
-        // Update the event's available tickets
         event.availableTickets -= 1;
         await event.save();
 
         if (!user.bookedEvents) {
-            user.bookedEvents = []; // Initialize bookedEvents if it is undefined
+            user.bookedEvents = [];
         }
-        // Add the booking to the user's bookings array
         user.bookedEvents.push( eventId );
         console.log(user.bookedEvents)
 
@@ -89,30 +85,25 @@ const requestOtp = async (req, res) => {
     const { email } = req.body;
 
     try {
-        // Check if the user exists
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Generate a 6-digit OTP
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-        // Set OTP expiration time (e.g., 10 minutes from now)
         const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-        // Save OTP and expiration time in the database
         user.newestOTP = otp;
         user.otpExpiry = otpExpiresAt;
         await user.save();
 
-        // Send OTP via email
         const transporter = nodemailer.createTransport({
             service: 'Gmail',
 
             auth: {
-                user: process.env.EMAIL, // Your email
-                pass: process.env.EMAIL_PASSWORD // Your email password
+                user: process.env.EMAIL, 
+                pass: process.env.EMAIL_PASSWORD 
             }
         });
 
