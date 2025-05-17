@@ -15,6 +15,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
     const isSoldOut = event.availableTickets <= 0; 
     const { isDarkMode } = useDarkMode()
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
 
 
@@ -25,6 +26,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
         if (!user) return;
 
         console.log("Booking event:", event._id);
+        setIsLoading(true);
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/book/${event._id}`, {
             method: "POST",
             headers: {
@@ -36,6 +38,7 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
         if (response.ok) {
             console.log("Booking successful:", json)
             fetchEvents()
+            setIsLoading(false);
             onSuccess("Event booked successfully!");
             dispatch({ type: "SET_BOOKINGS", payload: [...bookings, event] })
                     navigate("/booking-confirmation", {
@@ -153,10 +156,10 @@ const EventDetails = ({ event, fetchEvents,onSuccess, onSuccessDelete }) => {
       {!isAdmin && (
         <>
           <Button
-  variant={hasBooked || isSoldOut ? "contained" : "outlined"}
+  variant={hasBooked || isSoldOut || isLoading ? "contained" : "outlined"}
   color="primary"
   onClick={handleBookNow}
-  disabled={hasBooked || isSoldOut}
+  disabled={hasBooked || isSoldOut || isLoading}
   sx={{
     fontWeight: 600,
     boxShadow: "0 4px 12px 0 rgba(30, 136, 229, 0.15), 0 1.5px 4px 0 rgba(0,0,0,0.10)",
