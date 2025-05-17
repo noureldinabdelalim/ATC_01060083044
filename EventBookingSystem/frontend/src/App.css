@@ -6,6 +6,15 @@
   height: 40vmin;
   pointer-events: none;
 }
+.form-control::placeholder {
+  color: #888;
+  opacity: 1;
+}
+body.dark-mode .form-control::placeholder,
+.bg-dark .form-control::placeholder {
+  color: #fff;
+  opacity: 1;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -29,18 +38,55 @@ body.dark-mode p {
 }
 
 .App-header {
-  background-color: #282c34;
+  background: var(--main-bg);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: var(--text-main);
 }
 
 .App-link {
   color: #61dafb;
+}
+
+
+
+body {
+  background: var(--main-bg);
+  min-height: 100vh; 
+  color: var(--text-main);
+  margin: 0;
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+  --main-bg: radial-gradient(ellipse at 50% 0%, #0a1837 0%, #0a0f1a 100%);
+  --surface-bg: #181f2a;
+  --surface-border: #222b3a;
+  --text-main: #fff;
+  --primary: #5ea0ef;
+  --primary-contrast: #0a1837;
+}
+h1.events-title {
+  color: "rgba(10, 24, 55, 0.7)";
+  font-weight: 800;
+}
+body.dark-mode h1.events-title {
+  color: #5ea0ef;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p {
+  color: #ffffff; 
 }
 
 @keyframes App-logo-spin {
@@ -50,4 +96,80 @@ body.dark-mode p {
   to {
     transform: rotate(360deg);
   }
+}
+
+
+:root {
+  --main-bg: #b5afaf;
+  --surface-bg: #b5afaf;
+  --surface-border: #b5afaf;
+  --text-main: #222;
+  --primary: #2563eb;
+  --primary-contrast: #b5afaf;
+  --events-bg-light: #b5afaf; 
+  --events-bg-dark: radial-gradient(ellipse at 50% 0%, #0a1837 0%, #0a0f1a 100%);
+}
+
+.App {
+  background: var(--main-bg);
+}
+
+
+
+.event-details.card {
+  margin: 20px auto;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  max-width: 900px;
+  transition: transform 0.2s;
+}
+
+.event-details.card:hover {
+  transform: translateY(-4px);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+img {
+  border-radius: 10px;
+}
+
+button.view-details-btn {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button.view-details-btn:hover {
+  background-color: #084298;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.pages {
+    flex: 1;
+}
+
+
+footer {
+    text-align: center;
+    padding: 1rem;
 }

@@ -79,6 +79,41 @@ userSchema.statics.updatePass = async function(email,password){
 
 
 }
+userSchema.statics.addAdmin = async function(name, email, password, phone, address, dob, nationalId) {
+    // Validate required fields
+    if (!name || !email || !password) {
+        throw Error('Name, email, and password are required');
+    }
+
+    // Validate email format
+    if (!validator.isEmail(email)) {
+        throw Error('Invalid email format');
+    }
+
+    // Check if the email is already in use
+    const exists = await this.findOne({ email });
+    if (exists) {
+        throw Error('Email already in use');
+    }
+
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    // Create the admin user
+    const admin = await this.create({
+        name,
+        email,
+        password: hash,
+        phone,
+        address,
+        dob,
+        nationalId,
+        role: 'admin', // Set the role to 'admin'
+    });
+
+    return admin;
+};
 
 userSchema.statics.register = async function( name,phone, address, dob, nationalId, email,password) {
 

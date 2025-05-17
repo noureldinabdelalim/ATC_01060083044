@@ -22,9 +22,9 @@ export const useLogin = () => {
     
             let json;
             try {
-                json = await response.json(); // Attempt to parse JSON
+                json = await response.json(); 
             } catch (err) {
-                throw new Error('Invalid response from server'); // Handle non-JSON responses
+                throw new Error('Invalid response from server');
             }
     
             if (!response.ok) {
@@ -33,11 +33,20 @@ export const useLogin = () => {
                 return;
             }
     
-            // Save the user to local storage
             localStorage.setItem('user', JSON.stringify(json));
     
-            // Update the auth context
             dispatch({ type: 'LOGIN', payload: json });
+
+            const bookingsResponse = await fetch(`${URL}/user/myBookings`, {
+            headers: {
+                Authorization: `Bearer ${json.token}`,
+            },
+        });
+
+        const bookings = await bookingsResponse.json();
+        if (bookingsResponse.ok) {
+            dispatch({ type: "SET_BOOKINGS", payload: bookings });
+        }
     
             setIsLoading(false);
         } catch (error) {

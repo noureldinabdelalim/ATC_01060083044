@@ -4,7 +4,8 @@ const router = express.Router()
 const {  getEvents, getEventsSortedByDate, addNewUserImage,
     getEventById
  } = require('../controllers/eventController')
- const { bookEvent, cancelBooking, getMyBookings } = require('../controllers/userController')
+const { cancelBooking, bookEvent, getMyBookings, getMyUser, updateUser, requestOtp } = require('../controllers/userController')
+
 
 router.use(requireAuth)
 
@@ -19,6 +20,14 @@ router.get('/event/:id', getEventById)
 router.post('/event/book', bookEvent)
 router.delete('/event/cancel', cancelBooking)
 router.get('/event/bookings', getMyBookings)
+
+router.delete('/cancel/:id', cancelBooking )
+router.post('/book/:id', bookEvent)
+router.get('/myBookings', getMyBookings)
+router.get('/myUser', getMyUser)
+router.put('/updateUser', updateUser)
+// router.post('/requestOtp', requestOtp)
+
 
 
 
