@@ -1,8 +1,10 @@
-
+![Screenshot 2025-05-17 192143](https://github.com/user-attachments/assets/817ebd39-ab46-4ea1-be2b-92c32a67b054)
 # Event Booking System
 
 A modern, full-stack web application for discovering, creating, and booking events.
- Built with React, Node.js, Express, and MongoDB. (MERN Stack)
+ Built with React, Node.js, Express, and MongoDB. (MERN Stack). The web application has been deployed using Render for the backend and Vercel for the frontend.
+
+ Link for the web app: https://event-booking-system-noureldin.vercel.app/
 
 ## 🚀 Features
 
@@ -160,6 +162,9 @@ REACT_APP_BACKEND_URL=http://localhost:5000 //or if you deployed put the url her
 ![Screenshot 2025-05-17 173530](https://github.com/user-attachments/assets/47a92e6d-b572-4e7b-beb5-b2354e67b0f1)
 
 
+  * **Footer**:
+
+![Screenshot 2025-05-17 192143](https://github.com/user-attachments/assets/1d3913e9-4460-44c7-856a-ef914e9b8d4c)
 
 
 ## 📧 Contact
